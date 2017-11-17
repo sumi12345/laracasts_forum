@@ -1,3 +1,5 @@
+/.idea
+/database/migrations
 /vendor
 /node_modules
 Homestead.yaml
