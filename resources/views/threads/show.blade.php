@@ -48,6 +48,6 @@
         </div>
     </div>
     @else
-    <div class="row">要发表评论请 <a href="{{ route('login') }}">登录</a></div>
+    <div class="row">要发表评论请 <a href="{{ url('auth/login') }}">登录</a></div>
     @endif
 @endsection

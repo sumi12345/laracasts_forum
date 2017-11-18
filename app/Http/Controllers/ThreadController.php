@@ -7,9 +7,15 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
 use App\Thread;
+use Log;
 
 class ThreadController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth', ['only' => ['store']]);
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -40,7 +46,15 @@ class ThreadController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        Log::debug('ThreadController@store add thread: '. request('title'));
+
+        $thread = Thread::create([
+            'user_id' => auth()->id(),
+            'title' => request('title'),
+            'body' => request('body')
+        ]);
+
+        return redirect($thread->path());
     }
 
     /**

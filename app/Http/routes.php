@@ -28,6 +28,7 @@ Route::post('auth/register', 'Auth\AuthController@postRegister');
 // 帖子
 Route::get('/threads', 'ThreadController@index');
 Route::get('/threads/{thread}', 'ThreadController@show');
+Route::post('/threads', 'ThreadController@store');
 
 // 回复
 Route::post('/threads/{thread}/replies', 'ReplyController@store');

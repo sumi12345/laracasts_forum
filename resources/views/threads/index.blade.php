@@ -7,9 +7,10 @@
     <div class="col-md-8 col-md-offset-2">
         <div class="panel panel-default">
             <div class="panel-heading">
-                <a href="{{ $thread->path() }}">
-                    <h3 class="panel-title">{{ $thread->title }}</h3>
-                </a>
+                <h3 class="panel-title">
+                    <a href="{{ $thread->path() }}">{{ $thread->title }}</a>
+                    <small>posted {{ $thread->created_at }}</small>
+                </h3>
             </div>
             <div class="panel-body">
                 {{ $thread->body }}
