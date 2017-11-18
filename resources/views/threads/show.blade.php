@@ -31,8 +31,23 @@
                     {{ $reply->body }}
                 </div>
             </div>
-            <p><br></p>
+            <p><hr></p>
             @endforeach
         </div>
     </div>
+
+    @if (auth()->check())
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+            <form method="POST" action="{{ $thread->path() . '/replies' }}">
+                <div class="form-group">
+                    <textarea name="body" id="body" rows="3" class="form-control" placeholder="说点什么?"></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">发布</button>
+            </form>
+        </div>
+    </div>
+    @else
+    <div class="row">要发表评论请 <a href="{{ route('login') }}">登录</a></div>
+    @endif
 @endsection

@@ -11,11 +11,23 @@
 |
 */
 
+// 主页
 Route::get('/', function () {
     return view('welcome');
 });
 
+// 登录
+Route::get('auth/login', 'Auth\AuthController@getLogin');
+Route::post('auth/login', 'Auth\AuthController@postLogin');
+Route::get('auth/logout', 'Auth\AuthController@getLogout');
+
+// 注册
+Route::get('auth/register', 'Auth\AuthController@getRegister');
+Route::post('auth/register', 'Auth\AuthController@postRegister');
+
+// 帖子
 Route::get('/threads', 'ThreadController@index');
 Route::get('/threads/{thread}', 'ThreadController@show');
 
+// 回复
 Route::post('/threads/{thread}/replies', 'ReplyController@store');
