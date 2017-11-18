@@ -63,5 +63,12 @@ class UserParticipateTest extends TestCase
         // 全部帖子中看到这个帖子
         $this->visit('/threads')->see($thread->title);
     }
+    
+    /** @test */
+    public function guests_cannot_see_the_create_thread_page() {
+        // 用户不登录时访问创建帖子页面 会跳转到登录页面
+        // 不能用 visit 因为它会跟踪跳转
+        $this->get('/threads/create')->assertRedirectedTo('auth/login');
+    }
 
 }
