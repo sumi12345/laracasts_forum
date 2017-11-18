@@ -22,4 +22,12 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase
 
         return $app;
     }
+
+    /** 模拟用户登录 */
+    protected function signIn($user = null)
+    {
+        $user = $user ?: create('App\User');
+        $this->be($user);
+        return $this;
+    }
 }
