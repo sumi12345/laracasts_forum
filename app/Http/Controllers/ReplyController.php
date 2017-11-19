@@ -45,6 +45,8 @@ class ReplyController extends Controller
      */
     public function store($channel_slug, Thread $thread)
     {
+        $this->validate(request(), ['body' => 'required']);
+
         Log::debug('ReplyController@store add reply: ' . request('body'));
 
         $thread->addReply([

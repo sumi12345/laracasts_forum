@@ -42,35 +42,12 @@ class UserParticipateTest extends TestCase
     }
 
     /** @test */
-    public function an_unauthenticated_user_can_not_create_threads()
+    public function a_reply_requires_a_body()
     {
-        // 用户不登录时发表帖子
-        $thread = make('App\Thread');
-        $this->post('/threads', $thread->toArray());
-
-        // 应该跳转到登录页面
-        $this->assertRedirectedTo('auth/login');
-    }
-
-    /** @test */
-    public function an_authenticated_user_can_create_threads()
-    {
-        // 用户登录
-        $this->signIn($this->user);
-
-        // 用户登录时发表帖子
-        $thread = make('App\Thread');
-        $this->post('/threads', $thread->toArray());
-
-        // 全部帖子中看到这个帖子
-        $this->visit('/threads')->see($thread->title);
-    }
-    
-    /** @test */
-    public function guests_cannot_see_the_create_thread_page() {
-        // 用户不登录时访问创建帖子页面 应跳转到登录页面
-        // 不能用 visit 因为它会跟踪跳转
-        $this->get('/threads/create')->assertRedirectedTo('auth/login');
+        $this->signIn();
+        $reply = make('App\Reply', ['body' => null]);
+        $this->post($this->thread->path().'/replies', $reply->toArray())
+            ->assertSessionHasErrors('body');
     }
 
 }
