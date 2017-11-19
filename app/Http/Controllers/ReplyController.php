@@ -39,10 +39,11 @@ class ReplyController extends Controller
     /**
      * Store a newly created resource in storage.
      *
+     * @param string $channel_slug
      * @param \App\Thread $thread
      * @return \Illuminate\Http\Response
      */
-    public function store(Thread $thread)
+    public function store($channel_slug, Thread $thread)
     {
         Log::debug('ReplyController@store add reply: ' . request('body'));
 

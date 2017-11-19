@@ -9,6 +9,8 @@ class ThreadTest extends TestCase
     // 在测试开始时迁移, 结束后销毁
     //use DatabaseMigrations;
 
+    protected $thread;
+
     public function setUp()
     {
         parent::setUp();
@@ -27,7 +29,7 @@ class ThreadTest extends TestCase
     public function a_user_can_browse_a_single_thread()
     {
         // 帖子详情页面可以看到帖子标题
-        $this->visit('/threads/'.$this->thread->id)->see($this->thread->title);
+        $this->visit($this->thread->path())->see($this->thread->title);
     }
 
     /** @test */
@@ -35,6 +37,6 @@ class ThreadTest extends TestCase
     {
         // 帖子详情页面可以看到最新评论内容
         $reply = factory('App\Reply')->create(['thread_id' => $this->thread->id]);
-        $this->visit('/threads/'.$this->thread->id)->see($reply->body);
+        $this->visit($this->thread->path())->see($reply->body);
     }
 }
