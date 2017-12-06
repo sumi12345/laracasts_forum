@@ -36,6 +36,8 @@
                             </ul>
                         </li>
 
+                        <li><a href="/threads/create">new Thread</a></li>
+
                     </ul>
 
                     <ul class="nav navbar-nav navbar-right">
