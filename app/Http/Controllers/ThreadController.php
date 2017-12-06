@@ -7,6 +7,7 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
 use App\Thread;
+use App\Channel;
 use Log;
 
 class ThreadController extends Controller
@@ -19,11 +20,16 @@ class ThreadController extends Controller
     /**
      * Display a listing of the resource.
      *
+     * @param \App\Channel $channel
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Channel $channel)
     {
-        $threads = Thread::all();
+        if ($channel->exists) {
+            $threads = $channel->threads;
+        } else {
+            $threads = Thread::all();
+        }
 
         return view('threads.index', compact('threads'));
     }

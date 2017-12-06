@@ -4,7 +4,7 @@ use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
-class ThreadTest extends TestCase
+class ThreadReadTest extends TestCase
 {
     // 在测试开始时迁移, 结束后销毁
     //use DatabaseMigrations;
@@ -38,5 +38,17 @@ class ThreadTest extends TestCase
         // 帖子详情页面可以看到最新评论内容
         $reply = factory('App\Reply')->create(['thread_id' => $this->thread->id]);
         $this->visit($this->thread->path())->see($reply->body);
+    }
+
+    /** @test */
+    public function a_user_can_filter_threads_according_to_a_channel()
+    {
+        $channel = factory('App\Channel')->create();
+        $threadInChannel = factory('App\Thread')->create(['channel_id' => $channel->id]);
+        $threadNotInChannel = factory('App\Thread')->create();
+
+        //$this->get('/threads/'.$channel->slug)
+          //  ->see($threadInChannel->title)
+            //->dontSee($threadNotInChannel->title);
     }
 }

@@ -24,11 +24,13 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function boot(Router $router)
     {
-        //
-
         parent::boot($router);
 
         $router->model('thread', 'App\Thread');
+
+        $router->bind('channel', function($value) {
+            return \App\Channel::where('slug', $value)->first();
+        });
     }
 
     /**
