@@ -13,7 +13,12 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        view()->share('channels', \App\Channel::all());
+        // share 会在 database migration 之前执行
+        //view()->share('channels', \App\Channel::all());
+
+        view()->composer('*', function ($view) {
+            $view->with('channels', \App\Channel::all());
+        });
     }
 
     /**

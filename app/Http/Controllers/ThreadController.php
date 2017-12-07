@@ -25,11 +25,22 @@ class ThreadController extends Controller
      */
     public function index(Channel $channel)
     {
+        // 定义 threads 变量
+        $threads = Thread::orderBy('created_at', 'desc');
+
+        // 筛选频道
         if ($channel->exists) {
-            $threads = $channel->threads;
-        } else {
-            $threads = Thread::all();
+            $threads = $channel->threads();
         }
+
+        // 筛选用户
+        if ($username = request('by')) {
+            $user = \App\User::where('name', $username)->firstOrFail();
+            if ($threads) $threads->where('user_id', $user->id);
+        }
+
+        // 取出数据
+        $threads = $threads->get();
 
         return view('threads.index', compact('threads'));
     }

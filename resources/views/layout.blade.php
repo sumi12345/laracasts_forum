@@ -25,7 +25,17 @@
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                     <ul class="nav navbar-nav">
 
-                        <li><a href="{{ url('/threads') }}">All</a></li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Threads<span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="/threads">All Threads</a></li>
+                                @if (Auth::guest())
+                                    <li><a href="/auth/login">My Threads</a></li>
+                                @else
+                                    <li><a href="/threads?by={{ auth()->user()->name }}">My Threads</a></li>
+                                @endif
+                            </ul>
+                        </li>
 
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Channels <span class="caret"></span></a>
