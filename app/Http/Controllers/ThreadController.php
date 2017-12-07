@@ -7,6 +7,7 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
 use App\Thread;
+use App\Filters\ThreadFilter;
 use App\Channel;
 use Log;
 
@@ -21,9 +22,11 @@ class ThreadController extends Controller
      * Display a listing of the resource.
      *
      * @param \App\Channel $channel
+     * @param \App\Filters\ThreadFilter $filters
+     *
      * @return \Illuminate\Http\Response
      */
-    public function index(Channel $channel)
+    public function index(Channel $channel, ThreadFilter $filter)
     {
         // 定义 threads 变量
         $threads = Thread::orderBy('created_at', 'desc');
@@ -33,14 +36,8 @@ class ThreadController extends Controller
             $threads = $channel->threads();
         }
 
-        // 筛选用户
-        if ($username = request('by')) {
-            $user = \App\User::where('name', $username)->firstOrFail();
-            if ($threads) $threads->where('user_id', $user->id);
-        }
-
-        // 取出数据
-        $threads = $threads->get();
+        // 筛选 query 条件
+        $threads = $threads->filter($filter)->get();
 
         return view('threads.index', compact('threads'));
     }

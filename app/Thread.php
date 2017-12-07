@@ -27,4 +27,16 @@ class Thread extends Model
     {
         $this->replies()->create($reply);
     }
+
+    /**
+     * Query Scope
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @param \App\Filters\ThreadFilter $filter
+     *
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeFilter($query, $filter)
+    {
+        return $filter->apply($query);
+    }
 }
