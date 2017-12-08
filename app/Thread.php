@@ -18,6 +18,16 @@ class Thread extends Model
         return $this->hasMany(Reply::class);
     }
 
+    public function getRepliesCountAttribute()
+    {
+        return $this->replies()->count();
+    }
+
+    public function creator()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
+
     public function channel()
     {
         return $this->belongsTo(Channel::class);
@@ -39,4 +49,5 @@ class Thread extends Model
     {
         return $filter->apply($query);
     }
+
 }

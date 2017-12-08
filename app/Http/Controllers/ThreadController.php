@@ -22,7 +22,7 @@ class ThreadController extends Controller
      * Display a listing of the resource.
      *
      * @param \App\Channel $channel
-     * @param \App\Filters\ThreadFilter $filters
+     * @param \App\Filters\ThreadFilter $filter
      *
      * @return \Illuminate\Http\Response
      */
@@ -81,13 +81,16 @@ class ThreadController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  String $channel_slug
+     * @param  \App\Channel $channel
      * @param  \App\Thread $thread
      * @return \Illuminate\Http\Response
      */
-    public function show($channel_slug, Thread $thread)
+    public function show(Channel $channel, Thread $thread)
     {
-        return view('threads.show', compact('thread'));
+        return view('threads.show', [
+            'thread' => $thread,
+            'replies' => $thread->replies()->paginate(10)
+        ]);
     }
 
     /**
