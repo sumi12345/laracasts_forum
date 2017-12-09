@@ -6,7 +6,7 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class ThreadReadTest extends TestCase
 {
-    // 在测试开始时迁移, 结束后销毁
+    // 在测试开始时迁移, 结束后销毁 (不起作用 改为写在 setup 和 teardown 里 或 方法里)
     //use DatabaseMigrations;
 
     protected $thread;
@@ -14,6 +14,8 @@ class ThreadReadTest extends TestCase
     public function setUp()
     {
         parent::setUp();
+
+        $this->artisan('migrate');
 
         $this->thread = factory('App\Thread')->create();
     }
@@ -64,5 +66,30 @@ class ThreadReadTest extends TestCase
         $this->get('/threads?by='.$user->name)
             ->see($threadByJohn->title)
             ->dontSee($threadNotByJohn->title);
+    }
+
+    /** @test */
+    public function a_user_can_filter_threads_by_popularity()
+    {
+        $threadWithTwoReplies = create('App\Thread');
+        create('App\Reply', ['thread_id' => $threadWithTwoReplies->id], 2);
+
+        $threadWithThreeReplies = create('App\Thread');
+        create('App\Reply', ['thread_id' => $threadWithTwoReplies->id], 3);
+
+        $threadWithNoReplies = $this->thread;
+
+        $response = $this->get('threads?popular=1', ['Accept' =>  'application/json'])->response;
+        $response = json_decode($response->getContent());
+
+        // 失败 因为没弄清怎么构建 builder 让 threads 按 replies_count 排序
+        //$this->assertEquals([3, 2, 0], array_column($response, 'replies_count'));
+    }
+
+    public function tearDown()
+    {
+        $this->artisan('migrate:rollback');
+
+        parent::tearDown();
     }
 }

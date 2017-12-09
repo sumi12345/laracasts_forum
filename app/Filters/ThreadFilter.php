@@ -40,4 +40,13 @@ class ThreadFilter
         $user = User::where('name', $username)->firstOrFail();
         return $this->builder->where('user_id', $user->id);
     }
+
+    /**
+     * 按人气排序
+     */
+    private function popular()
+    {
+        $this->builder->getQuery()->orders = [];
+        return $this->builder->orderBy('replies_count', 'desc');
+    }
 }

@@ -2,11 +2,19 @@
 
 namespace App;
 
+use App\Scopes\RepliesCountScope;
 use Illuminate\Database\Eloquent\Model;
 
 class Thread extends Model
 {
     protected $guarded = [];
+
+    protected static function boot() {
+        parent::boot();
+
+        // 因为 5.1 版中没有 withCount 方法, repliescountscope 没有实现
+        //static::addGlobalScope(new RepliesCountScope);
+    }
 
     public function path()
     {

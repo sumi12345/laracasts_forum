@@ -37,7 +37,17 @@ class ThreadController extends Controller
         }
 
         // 筛选 query 条件
-        $threads = $threads->filter($filter)->get();
+        $threads = $threads->filter($filter);
+
+        //dd($threads->toSql());
+        $threads = $threads->get();
+
+        // 为了测试. 没弄懂 addGlobalScope 的用法, 暂时添加属性.
+        // 5.0 版文档有 global scope 的用法 https://laravel.com/docs/5.0/eloquent#global-scopes
+        if (request()->wantsJson()) {
+            foreach ($threads as $thread) $thread['replies_count'] = $thread->replies_count;
+            return $threads;
+        }
 
         return view('threads.index', compact('threads'));
     }
