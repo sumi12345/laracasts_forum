@@ -31,6 +31,8 @@ class RouteServiceProvider extends ServiceProvider
         $router->bind('channel', function($value) {
             return \App\Channel::where('slug', $value)->first();
         });
+
+        $router->model('reply', 'App\Reply');
     }
 
     /**

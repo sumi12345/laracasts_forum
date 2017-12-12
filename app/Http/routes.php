@@ -33,3 +33,7 @@ Route::resource('/threads', 'ThreadController');
 
 // 回复
 Route::post('/threads/{channel}/{thread}/replies', 'ReplyController@store');
+
+// 点赞
+Route::get('/replies/{reply}/favorites', 'FavoriteController@index');
+Route::post('/replies/{reply}/favorites', 'FavoriteController@store');
