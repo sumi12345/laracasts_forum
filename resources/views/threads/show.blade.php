@@ -21,10 +21,18 @@
                         </a>
                     </div>
                     <div class="media-body">
-                        <h4 class="media-heading">
-                            <a href="#">{{ $reply->owner->name }}</a>
-                            <small>said {{ $reply->created_at->diffForHumans() }}</small>
-                        </h4>
+                        <div class="media-heading level">
+                            <h4 class="flex">
+                                <a href="#">{{ $reply->owner->name }}</a>
+                                <small>said {{ $reply->created_at->diffForHumans() }}</small>
+                            </h4>
+                            <form method="POST" action="/replies/{{ $reply->id }}/favorites">
+                                {{ csrf_field() }}
+                                <button type="submit" class="btn btn-info" {{ $reply->isFavorited() ? 'disabled' : '' }}>
+                                    {{ $reply->favorites()->count() }} 赞
+                                </button>
+                            </form>
+                        </div>
                         {{ $reply->body }}
                     </div>
                 </div>

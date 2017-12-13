@@ -29,4 +29,9 @@ class Reply extends Model
             'favorited_type' => static::class
         ]);
     }
+
+    public function isFavorited()
+    {
+        return $this->favorites()->where('user_id', auth()->id())->exists();
+    }
 }
