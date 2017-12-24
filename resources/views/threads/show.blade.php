@@ -23,7 +23,7 @@
                     <div class="media-body">
                         <div class="media-heading level">
                             <h4 class="flex">
-                                <a href="#">{{ $reply->owner->name }}</a>
+                                <a href="{{ url('/profiles', $reply->owner->name) }}">{{ $reply->owner->name }}</a>
                                 <small>said {{ $reply->created_at->diffForHumans() }}</small>
                             </h4>
                             <form method="POST" action="/replies/{{ $reply->id }}/favorites">
@@ -58,7 +58,7 @@
             <div class="panel panel-default">
                 <div class="panel-heading">About</div>
                 <div class="panel-body">
-                    由 <a href="#">{{$thread->creator->name}}</a>
+                    由 <a href="{{ url('/profiles', $thread->creator->name) }}">{{$thread->creator->name}}</a>
                     在 {{$thread->created_at->diffForHumans()}} 发布,
                     有 {{$thread->replies_count}} 条评论.
                 </div>

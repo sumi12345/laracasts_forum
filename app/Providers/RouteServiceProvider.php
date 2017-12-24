@@ -33,6 +33,10 @@ class RouteServiceProvider extends ServiceProvider
         });
 
         $router->model('reply', 'App\Reply');
+
+        $router->bind('user', function($value) {
+            return \App\User::where('name', $value)->first();
+        });
     }
 
     /**

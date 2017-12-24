@@ -36,4 +36,12 @@ class User extends Model implements AuthenticatableContract,
      * @var array
      */
     protected $hidden = ['password', 'remember_token'];
+
+    /**
+     * 这个用户创建的所有帖子
+     */
+    public function threads()
+    {
+        return $this->hasMany('App\Thread');
+    }
 }
