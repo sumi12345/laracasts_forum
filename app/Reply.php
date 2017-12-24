@@ -7,7 +7,11 @@ use Illuminate\Foundation\Testing\DatabaseMigrations;
 
 class Reply extends Model
 {
+    use Favoritable;
+
     protected $guarded = [];
+
+    protected $with = ['owner', 'favorites'];
 
     // relationship
     public function owner()
@@ -16,22 +20,7 @@ class Reply extends Model
     }
 
     // relationship
-    public function favorites()
-    {
-        return $this->morphMany(Favorite::class, 'favorited');
-    }
 
     // 当前登录用户给这条回复点赞
-    public function favorite()
-    {
-        $this->favorites()->create([
-            'user_id' => auth()->id(),
-            'favorited_type' => static::class
-        ]);
-    }
 
-    public function isFavorited()
-    {
-        return $this->favorites()->where('user_id', auth()->id())->exists();
-    }
 }
