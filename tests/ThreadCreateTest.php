@@ -64,6 +64,37 @@ class ThreadCreateTest extends TestCase
             ->assertSessionHasErrors('channel_id');
     }
 
+    /** @test */
+    public function guests_cannot_delete_threads()
+    {
+        $thread = create('App\Thread');
+
+        $this->delete($thread->path())
+            ->assertRedirectedTo('auth/login');
+    }
+
+    /** @test */
+    public function a_thread_can_be_deleted()
+    {
+        $user = create('App\User');
+        $this->signIn($user);
+
+        $thread = create('App\Thread', ['user_id' => $user->id]);
+        $reply = create('App\Reply', ['thread_id' => $thread->id]);
+
+        $this->delete($thread->path(), ['Accept' =>  'application/json'])
+            ->notSeeInDatabase('threads', ['id' => $thread->id])
+            ->notSeeInDatabase('replies', ['id' => $reply->id]);
+
+        $this->assertResponseStatus(204);
+    }
+
+    /** @test */
+    public function threads_may_only_be_deleted_by_those_who_have_permission()
+    {
+
+    }
+
     // 工具方法 发布帖子
     public function publishThread($overrides = [])
     {

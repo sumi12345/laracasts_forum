@@ -58,9 +58,18 @@
             <div class="panel panel-default">
                 <div class="panel-heading">About</div>
                 <div class="panel-body">
-                    由 <a href="{{ url('/profiles', $thread->creator->name) }}">{{$thread->creator->name}}</a>
-                    在 {{$thread->created_at->diffForHumans()}} 发布,
-                    有 {{$thread->replies_count}} 条评论.
+                    <p>
+                        由 <a href="{{ url('/profiles', $thread->creator->name) }}">{{ $thread->creator->name }}</a>
+                        在 {{ $thread->created_at }} 发布,
+                        有 {{ $thread->replies_count }} 条评论.
+                    </p>
+                    
+                    <form action="{{ $thread->path() }}" method="POST">
+                        {{ csrf_field() }}
+                        {{ method_field('DELETE') }}
+                        <button type="submit" class="btn btn-default">删除</button>
+                    </form>
+
                 </div>
             </div>
 

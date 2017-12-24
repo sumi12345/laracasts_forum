@@ -26,10 +26,12 @@ Route::get('auth/register', 'Auth\AuthController@getRegister');
 Route::post('auth/register', 'Auth\AuthController@postRegister');
 
 // 帖子
+Route::get('/threads', 'ThreadController@index');
+Route::post('/threads', 'ThreadController@store');
 Route::get('/threads/create', 'ThreadController@create');
 Route::get('/threads/{channel}', 'ThreadController@index');
 Route::get('/threads/{channel}/{thread}', 'ThreadController@show');
-Route::resource('/threads', 'ThreadController');
+Route::delete('/threads/{channel}/{thread}', 'ThreadController@destroy');
 
 // 回复
 Route::post('/threads/{channel}/{thread}/replies', 'ReplyController@store');

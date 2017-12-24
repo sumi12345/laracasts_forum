@@ -16,6 +16,10 @@ class Thread extends Model
 
         // 因为 5.1 版中没有 withCount 方法, repliescountscope 没有实现
         //static::addGlobalScope(new RepliesCountScope);
+
+        static::deleting(function ($thread) {
+            $thread->replies()->delete();
+        });
     }
 
     public function path()
