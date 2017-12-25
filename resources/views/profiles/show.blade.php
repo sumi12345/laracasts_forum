@@ -9,7 +9,7 @@
     </div>
 
 
-    <div class="row">
+    <!-- <div class="row">
         <div class="col-md-8">
 
             @foreach( $threads as $thread )
@@ -28,6 +28,18 @@
 
             {!! $threads->render() !!}
 
+        </div>
+    </div>-->
+
+    <div class="row">
+        <div class="col-md-8">
+            @foreach ($activities_by_date as $date => $activities)
+                <h3 class="page-header">{{ $date }}</h3>
+
+                @foreach ($activities as $activity)
+                    @include ("profiles.activities.$activity->type")
+                @endforeach
+            @endforeach
         </div>
     </div>
 @endsection

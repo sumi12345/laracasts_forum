@@ -16,9 +16,14 @@ class ProfileController extends Controller
      */
     public function show($profileUser)
     {
+        $activities_by_date = $profileUser->activities()->with('subject')->orderBy('id', 'desc')->get()->groupBy(function ($activity) {
+            return $activity->created_at->format('Y-m-d');
+        });
+
         return view('profiles.show', [
             'profileUser' => $profileUser,
-            'threads' => $profileUser->threads()->orderBy('created_at', 'desc')->paginate(30)
+            'threads' => $profileUser->threads()->orderBy('id', 'desc')->paginate(1),
+            'activities_by_date' => $activities_by_date,
         ]);
     }
 

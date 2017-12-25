@@ -19,8 +19,8 @@ class Reply extends Model
         return $this->belongsTo(User::class, 'user_id');
     }
 
-    // relationship
-
-    // 当前登录用户给这条回复点赞
-
+    public function thread()
+    {
+        return $this->belongsTo(Thread::class);
+    }
 }
