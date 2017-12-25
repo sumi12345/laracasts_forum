@@ -7,7 +7,7 @@ use Illuminate\Foundation\Testing\DatabaseMigrations;
 
 class Reply extends Model
 {
-    use Favoritable;
+    use Favoritable, RecordsActivity;
 
     protected $guarded = [];
 
