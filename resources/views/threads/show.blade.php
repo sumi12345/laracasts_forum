@@ -23,7 +23,7 @@
                     <div class="media-body">
                         <div class="media-heading level">
                             <h4 class="flex">
-                                <a href="{{ url('/profiles', $reply->owner->name) }}">{{ $reply->owner->name }}</a>
+                                <a href="{{ route('profile', $reply->owner->name) }}">{{ $reply->owner->name }}</a>
                                 <small>said {{ $reply->created_at->diffForHumans() }}</small>
                             </h4>
                             <form method="POST" action="/replies/{{ $reply->id }}/favorites">
@@ -59,16 +59,18 @@
                 <div class="panel-heading">About</div>
                 <div class="panel-body">
                     <p>
-                        由 <a href="{{ url('/profiles', $thread->creator->name) }}">{{ $thread->creator->name }}</a>
+                        由 <a href="{{ route('profile', $thread->creator->name) }}">{{ $thread->creator->name }}</a>
                         在 {{ $thread->created_at }} 发布,
                         有 {{ $thread->replies_count }} 条评论.
                     </p>
-                    
+
+                    @can ('update', $thread)
                     <form action="{{ $thread->path() }}" method="POST">
                         {{ csrf_field() }}
                         {{ method_field('DELETE') }}
                         <button type="submit" class="btn btn-default">删除</button>
                     </form>
+                    @endcan
 
                 </div>
             </div>

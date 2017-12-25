@@ -65,16 +65,21 @@ class ThreadCreateTest extends TestCase
     }
 
     /** @test */
-    public function guests_cannot_delete_threads()
+    public function unauthorized_users_may_not_delete_threads()
     {
         $thread = create('App\Thread');
 
         $this->delete($thread->path())
             ->assertRedirectedTo('auth/login');
+
+        $this->signIn();
+
+        $this->delete($thread->path())
+            ->assertResponseStatus(403);
     }
 
     /** @test */
-    public function a_thread_can_be_deleted()
+    public function authorized_users_can_delete_threads()
     {
         $user = create('App\User');
         $this->signIn($user);
@@ -82,17 +87,11 @@ class ThreadCreateTest extends TestCase
         $thread = create('App\Thread', ['user_id' => $user->id]);
         $reply = create('App\Reply', ['thread_id' => $thread->id]);
 
-        $this->delete($thread->path(), ['Accept' =>  'application/json'])
+        $this->delete($thread->path(), [], ['Accept' =>  'application/json'])
             ->notSeeInDatabase('threads', ['id' => $thread->id])
             ->notSeeInDatabase('replies', ['id' => $reply->id]);
 
         $this->assertResponseStatus(204);
-    }
-
-    /** @test */
-    public function threads_may_only_be_deleted_by_those_who_have_permission()
-    {
-
     }
 
     // 工具方法 发布帖子

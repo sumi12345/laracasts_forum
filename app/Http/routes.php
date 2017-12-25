@@ -41,4 +41,4 @@ Route::get('/replies/{reply}/favorites', 'FavoriteController@index');
 Route::post('/replies/{reply}/favorites', 'FavoriteController@store');
 
 // 用户主页
-Route::get('/profiles/{user}', 'ProfileController@show');
+Route::get('/profiles/{user}', 'ProfileController@show')->name('profile');
