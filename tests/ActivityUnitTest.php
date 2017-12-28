@@ -31,4 +31,18 @@ class ActivityUnitTest extends TestCase
 
         $this->assertEquals($activity->subject->id, $reply->id);
     }
+
+    /** @test */
+    public function it_fetches_a_feed_for_any_user()
+    {
+        $user = create('App\User');
+        create('App\Thread', ['user_id' => $user->id], 2);
+        $user->activities()->first()->update(['created_at' => \Carbon\Carbon::now()->subWeek()]);
+
+        $feed = \App\Activity::feed($user)->toArray();
+
+        $this->assertTrue(isset($feed[\Carbon\Carbon::now()->format('Y-m-d')]));
+
+        $this->assertTrue(isset($feed[\Carbon\Carbon::now()->subWeek()->format('Y-m-d')]));
+    }
 }

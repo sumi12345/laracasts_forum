@@ -15,7 +15,7 @@ class ProfilesTest extends TestCase
             ->see($user->name);
     }
 
-    /** @test */
+
     public function profiles_display_all_threads_created_by_the_user()
     {
         $user = create('App\User');
