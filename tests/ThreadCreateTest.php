@@ -89,7 +89,15 @@ class ThreadCreateTest extends TestCase
 
         $this->delete($thread->path(), [], ['Accept' =>  'application/json'])
             ->notSeeInDatabase('threads', ['id' => $thread->id])
-            ->notSeeInDatabase('replies', ['id' => $reply->id]);
+            ->notSeeInDatabase('replies', ['id' => $reply->id])
+            ->notSeeInDatabase('activities', [
+                'subject_id' => $thread->id,
+                'subject_type' => get_class($thread)
+            ])
+            ->notSeeInDatabase('activities', [
+                'subject_id' => $reply->id,
+                'subject_type' => get_class($reply)
+            ]);
 
         $this->assertResponseStatus(204);
     }

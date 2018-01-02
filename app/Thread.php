@@ -20,7 +20,7 @@ class Thread extends Model
         //static::addGlobalScope(new RepliesCountScope);
 
         static::deleting(function ($thread) {
-            $thread->replies()->delete();
+            $thread->replies->each(function($reply) { $reply->delete(); });
         });
 
         static::created(function ($thread) {
@@ -52,6 +52,11 @@ class Thread extends Model
     public function channel()
     {
         return $this->belongsTo(Channel::class);
+    }
+
+    public function activities()
+    {
+        return $this->hasMany('App\Activity');
     }
 
     public function addReply($reply)
