@@ -14,7 +14,7 @@
             </div>
 
             @foreach ($replies as $reply)
-                <div class="media">
+                <div class="media" id="reply-{{ $reply->id }}">
                     <div class="media-left">
                         <a href="#">
                             <img class="media-object" src="" alt="">
