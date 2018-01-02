@@ -8,7 +8,7 @@
     <script src="https://cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.js"></script>
 </head>
 <body>
-    <div class="container">
+    <div class="container" id="app">
 
         <nav class="navbar navbar-default">
             <div class="container-fluid">
@@ -68,9 +68,12 @@
         </nav>
 
         @yield('content')
+
+        <flash message="{{ session('alert_flash') }}"></flash>
     </div>
 </body>
 
+<script src="/js/app.js"></script>
 <style>
     .level { display:flex; align-items: center; }
     .flex { flex: 1; }
