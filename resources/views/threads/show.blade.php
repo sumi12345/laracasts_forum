@@ -26,6 +26,7 @@
                                 <a href="{{ route('profile', $reply->owner->name) }}">{{ $reply->owner->name }}</a>
                                 <small>said {{ $reply->created_at->diffForHumans() }}</small>
                             </h4>
+
                             <form method="POST" action="/replies/{{ $reply->id }}/favorites">
                                 {{ csrf_field() }}
                                 <button type="submit" class="btn btn-info" {{ $reply->isFavorited() ? 'disabled' : '' }}>
@@ -33,7 +34,17 @@
                                 </button>
                             </form>
                         </div>
+
                         {{ $reply->body }}
+
+                        @can ('update', $reply)
+                            <p></p>
+                            <form method="POST" action="/replies/{{ $reply->id }}">
+                                {{ csrf_field() }}
+                                {{ method_field('DELETE') }}
+                                <button type="submit" class="btn btn-danger">删除</button>
+                            </form>
+                        @endcan
                     </div>
                 </div>
                 <p><hr></p>

@@ -50,4 +50,31 @@ class UserParticipateTest extends TestCase
             ->assertSessionHasErrors('body');
     }
 
+    /** @test */
+    public function unauthorized_users_cannot_delete_replies()
+    {
+        // 未登录用户
+        $reply = create('App\Reply');
+
+        $this->delete("/replies/{$reply->id}")
+            ->assertRedirectedTo('/auth/login');
+
+        // 已登录用户但不是作者
+        $this->signIn();
+
+        $this->delete("/replies/{$reply->id}")
+            ->assertResponseStatus(403);
+    }
+
+    /** @test */
+    public function authorized_users_can_delete_replies()
+    {
+        $this->signIn();
+        $reply = create('App\Reply', ['user_id' => auth()->id()]);
+
+        $this->delete("/replies/{$reply->id}")
+            ->notSeeInDatabase('replies', ['id' => $reply->id])
+            ->assertResponseStatus(302);
+    }
+
 }
