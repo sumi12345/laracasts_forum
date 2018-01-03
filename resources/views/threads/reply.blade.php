@@ -12,7 +12,9 @@
                     <small>said {{ $reply->created_at->diffForHumans() }}</small>
                 </h4>
 
-                <favorite :reply="{{ $reply }}"></favorite>
+                @if (Auth::check())
+                    <favorite :reply="{{ $reply }}"></favorite>
+                @endif
             </div>
 
             <div v-if="editing">
