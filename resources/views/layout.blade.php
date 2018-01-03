@@ -74,8 +74,11 @@
 </body>
 
 <script src="/js/app.js"></script>
+
 <style>
     .level { display:flex; align-items: center; }
     .flex { flex: 1; }
+    .mr-1 { margin-right: 1em; }
+    .mt-1 { margin-top: 1em; }
 </style>
 </html>
