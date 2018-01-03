@@ -77,4 +77,32 @@ class UserParticipateTest extends TestCase
             ->assertResponseStatus(302);
     }
 
+    /** @test */
+    public function unauthorized_users_cannot_update_replies()
+    {
+        // 未登录用户
+        $reply = create('App\Reply');
+
+        $this->patch("/replies/{$reply->id}")
+            ->assertRedirectedTo('/auth/login');
+
+        // 已登录用户但不是作者
+        $this->signIn();
+
+        $this->patch("/replies/{$reply->id}")
+            ->assertResponseStatus(403);
+    }
+
+    /** @test */
+    public function authorized_users_can_update_replies()
+    {
+        $this->signIn();
+        $reply = create('App\Reply', ['user_id' => auth()->id()]);
+
+        $new_body = 'You been changed.';
+
+        $this->patch("/replies/{$reply->id}", ['body' => $new_body])
+            ->seeInDatabase('replies', ['id' => $reply->id, 'body' => $new_body]);
+    }
+
 }

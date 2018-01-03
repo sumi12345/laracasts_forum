@@ -1,4 +1,4 @@
-<reply inline-template>
+<reply :attributes="{{ $reply }}" inline-template v-clock>
     <div class="media" id="reply-{{ $reply->id }}">
         <div class="media-left">
             <a href="#">
@@ -20,16 +20,20 @@
                 </form>
             </div>
 
-            {{ $reply->body }}
+            <div v-if="editing">
+                <div class="form-group">
+                    <textarea v-model="body" rows="3" class="form-control"></textarea>
+                </div>
+
+                <button class="btn btn-success btn-xs" @click="update">提交</button>
+                <button class="btn btn-default btn-xs" @click="editing = false">取消</button>
+            </div>
+            <div v-else v-text="body"></div>
 
             @can ('update', $reply)
                 <div class="level mt-1">
 
-                    <form method="POST" action="/replies/{{ $reply->id }}" class="mr-1">
-                        {{ csrf_field() }}
-                        {{ method_field('PATCH') }}
-                        <button type="submit" class="btn btn-success">编辑</button>
-                    </form>
+                    <button type="button" class="btn btn-default mr-1" @click="editing = true">编辑</button>
 
                     <form method="POST" action="/replies/{{ $reply->id }}">
                         {{ csrf_field() }}

@@ -35,6 +35,7 @@ Route::delete('/threads/{channel}/{thread}', 'ThreadController@destroy');
 
 // 回复
 Route::post('/threads/{channel}/{thread}/replies', 'ReplyController@store');
+Route::patch('/replies/{reply}', 'ReplyController@update');
 Route::delete('/replies/{reply}', 'ReplyController@destroy');
 
 // 点赞
