@@ -91,6 +91,8 @@ class ReplyController extends Controller
         $this->authorize('update', $reply);
 
         $reply->update(['body' => request('body')]);
+
+        return response(['status' => 'Reply updated!']);
     }
 
     /**
@@ -105,6 +107,6 @@ class ReplyController extends Controller
 
         $reply->delete();
 
-        return back();
+        return response(['status' => 'Reply deleted!']);
     }
 }

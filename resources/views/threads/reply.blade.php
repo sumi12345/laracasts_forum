@@ -1,4 +1,4 @@
-<reply :attributes="{{ $reply }}" inline-template v-clock>
+<reply :attributes="{{ $reply }}" inline-template v-cloak>
     <div class="media" id="reply-{{ $reply->id }}">
         <div class="media-left">
             <a href="#">
@@ -33,13 +33,8 @@
             @can ('update', $reply)
                 <div class="level mt-1">
 
-                    <button type="button" class="btn btn-default mr-1" @click="editing = true">编辑</button>
-
-                    <form method="POST" action="/replies/{{ $reply->id }}">
-                        {{ csrf_field() }}
-                        {{ method_field('DELETE') }}
-                        <button type="submit" class="btn btn-danger">删除</button>
-                    </form>
+                    <button type="button" class="btn btn-default" @click="editing = true">编辑</button>
+                    <button type="submit" class="btn btn-danger" @click="destroy">删除</button>
 
                 </div>
             @endcan
