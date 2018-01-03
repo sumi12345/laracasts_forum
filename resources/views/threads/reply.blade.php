@@ -11,13 +11,7 @@
                     <a href="{{ route('profile', $reply->owner->name) }}">{{ $reply->owner->name }}</a>
                     <small>said {{ $reply->created_at->diffForHumans() }}</small>
                 </h4>
-
-                <form method="POST" action="/replies/{{ $reply->id }}/favorites">
-                    {{ csrf_field() }}
-                    <button type="submit" class="btn btn-info" {{ $reply->isFavorited() ? 'disabled' : '' }}>
-                        {{ $reply->favorites_count }} 赞
-                    </button>
-                </form>
+                <favorite></favorite>
             </div>
 
             <div v-if="editing">
@@ -32,10 +26,8 @@
 
             @can ('update', $reply)
                 <div class="level mt-1">
-
                     <button type="button" class="btn btn-default" @click="editing = true">编辑</button>
                     <button type="submit" class="btn btn-danger" @click="destroy">删除</button>
-
                 </div>
             @endcan
         </div>
