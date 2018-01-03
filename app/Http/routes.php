@@ -41,6 +41,7 @@ Route::delete('/replies/{reply}', 'ReplyController@destroy');
 // 点赞
 Route::get('/replies/{reply}/favorites', 'FavoriteController@index');
 Route::post('/replies/{reply}/favorites', 'FavoriteController@store');
+Route::delete('/replies/{reply}/favorites', 'FavoriteController@destroy');
 
 // 用户主页
 Route::get('/profiles/{user}', 'ProfileController@show')->name('profile');

@@ -24,12 +24,10 @@ class FavoriteController extends Controller
     public function store(Reply $reply)
     {
         $reply->favorite();
-
-        return back();
     }
 
-    public function index()
+    public function destroy(Reply $reply)
     {
-        return 'hello';
+        $reply->unfavorite();
     }
 }

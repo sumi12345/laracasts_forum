@@ -21,13 +21,24 @@ trait Favoritable
     {
         $this->favorites()->create([
             'user_id' => auth()->id(),
-            'favorited_type' => static::class
+        ]);
+    }
+
+    public function unfavorite()
+    {
+        $this->favorites()->delete([
+            'user_id' => auth()->id(),
         ]);
     }
 
     public function isFavorited()
     {
         return $this->favorites->where('user_id', auth()->id())->count();
+    }
+
+    public function getIsFavoritedAttribute()
+    {
+        return $this->isFavorited();
     }
 
     public function getFavoritesCountAttribute()

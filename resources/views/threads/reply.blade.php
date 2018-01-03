@@ -11,7 +11,8 @@
                     <a href="{{ route('profile', $reply->owner->name) }}">{{ $reply->owner->name }}</a>
                     <small>said {{ $reply->created_at->diffForHumans() }}</small>
                 </h4>
-                <favorite></favorite>
+
+                <favorite :reply="{{ $reply }}"></favorite>
             </div>
 
             <div v-if="editing">
