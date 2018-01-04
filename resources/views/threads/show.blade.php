@@ -1,6 +1,8 @@
 @extends('layout')
 
 @section('content')
+    <thread-view inline-template>
+
     <div class="row">
         <div class="col-md-8">
 
@@ -13,11 +15,15 @@
                 </div>
             </div>
 
+            <replies :data="{{ $thread->replies }}"></replies>
+
+            {{--
             @foreach ($replies as $reply)
                 @include('threads.reply', ['reply' => $reply])
                 <p><hr></p>
             @endforeach
             {!! $replies->render() !!}
+            --}}
 
             @if (auth()->check())
             <form method="POST" action="{{ $thread->path() . '/replies' }}">
@@ -56,5 +62,6 @@
 
         </div>
     </div>
+    </thread-view>
 
 @endsection
