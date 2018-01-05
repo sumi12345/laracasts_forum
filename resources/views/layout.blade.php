@@ -73,6 +73,13 @@
     </div>
 </body>
 
+<script>
+    window.App = {!! json_encode([
+        'csrfToken' => csrf_token(),
+        'signeIn' => auth()->check(),
+        'user' => auth()->user()
+    ]) !!};
+</script>
 <script src="/js/app.js"></script>
 
 <style>

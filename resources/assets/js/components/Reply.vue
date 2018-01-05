@@ -12,7 +12,9 @@
                     <small>said {{ data.created_at }}</small>
                 </h4>
 
-                <!-- favorite component -->
+                <div v-if="signedIn">
+                    <favorite :data="reply"></favorite>
+                </div>
 
             </div>
 
@@ -26,9 +28,10 @@
             </div>
             <div v-else v-text="body"></div>
 
-            <p></p>
-            <button type="button" class="btn btn-default" @click="editing = true">编辑</button>
-            <button type="submit" class="btn btn-danger" @click="destroy">删除</button>
+            <div v-if="canUpdate" class="mt-1">
+                <button type="button" class="btn btn-default" @click="editing = true">编辑</button>
+                <button type="submit" class="btn btn-danger" @click="destroy">删除</button>
+            </div>
         </div>
 
         <p><hr></p>
@@ -60,6 +63,14 @@
 
             profile_url() {
                 return '/profiles/' + this.data.owner.name;
+            },
+
+            signedIn() {
+                return window.App.signedIn;
+            },
+
+            canUpdate() {
+                return this.authorize(user => this.data.user_id == user.id);
             }
         },
 

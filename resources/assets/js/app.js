@@ -12,6 +12,12 @@ window.axios.defaults.headers.common = {
 // 全局变量
 window.events = new Vue();
 
+window.Vue.prototype.authorize = function (handler) {
+    let user = window.App.user;
+
+    return user ? handler(user) : false;
+}
+
 // 全局方法
 window.flash = function (message) {
     window.events.$emit('flash', message);
