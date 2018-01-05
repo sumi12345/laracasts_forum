@@ -26,7 +26,9 @@
             </div>
             <div v-else v-text="body"></div>
 
-            <!-- edit and delete button -->
+            <p></p>
+            <button type="button" class="btn btn-default" @click="editing = true">编辑</button>
+            <button type="submit" class="btn btn-danger" @click="destroy">删除</button>
         </div>
 
         <p><hr></p>
@@ -73,11 +75,9 @@
             },
 
             destroy() {
-                axios.delete('/replies/' + this.data.id);
+                // axios.delete('/replies/' + this.data.id);
 
-                $(this.$el).fadeOut(300);
-
-                flash('Your reply has been deleted!');
+                this.$emit('deleted');
             }
         }
     }

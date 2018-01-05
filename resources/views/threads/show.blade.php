@@ -1,7 +1,7 @@
 @extends('layout')
 
 @section('content')
-    <thread-view inline-template>
+    <thread-view inline-template :initial-replies-count="{{ $thread->replies_count }}">
 
     <div class="row">
         <div class="col-md-8">
@@ -15,7 +15,7 @@
                 </div>
             </div>
 
-            <replies :data="{{ $thread->replies }}"></replies>
+            <replies :data="{{ $thread->replies }}" @removed="repliesCount--"></replies>
 
             {{--
             @foreach ($replies as $reply)
@@ -46,7 +46,7 @@
                     <p>
                         由 <a href="{{ route('profile', $thread->creator->name) }}">{{ $thread->creator->name }}</a>
                         在 {{ $thread->created_at }} 发布,
-                        有 {{ $thread->replies_count }} 条评论.
+                        有 <span v-text="repliesCount"></span> 条评论.
                     </p>
 
                     @can ('update', $thread)
