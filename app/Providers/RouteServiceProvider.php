@@ -29,13 +29,13 @@ class RouteServiceProvider extends ServiceProvider
         $router->model('thread', 'App\Thread');
 
         $router->bind('channel', function($value) {
-            return \App\Channel::where('slug', $value)->first();
+            return \App\Channel::where('slug', $value)->orderBy('id', 'desc')->first();
         });
 
         $router->model('reply', 'App\Reply');
 
         $router->bind('user', function($value) {
-            return \App\User::where('name', $value)->first();
+            return \App\User::where('name', $value)->orderBy('id', 'desc')->first();
         });
     }
 

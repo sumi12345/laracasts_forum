@@ -15,7 +15,8 @@ class ThreadReadTest extends TestCase
     {
         parent::setUp();
 
-        $this->artisan('migrate');
+        // 影响下一个 Test 文件, 先注释
+        // $this->artisan('migrate');
 
         $this->thread = factory('App\Thread')->create();
     }
@@ -88,7 +89,8 @@ class ThreadReadTest extends TestCase
 
     public function tearDown()
     {
-        $this->artisan('migrate:rollback');
+        // 影响下一个 Test 文件, 先注释
+        // $this->artisan('migrate:rollback');
 
         parent::tearDown();
     }

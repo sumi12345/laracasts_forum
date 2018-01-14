@@ -1,7 +1,7 @@
 <template>
     <div>
-        <div v-for="(reply, index) in items">
-            <reply :data="reply" @deleted="remove(index)"></reply>
+        <div v-for="(reply, index) in items" :key="reply.id">
+            <reply :data="reply" @deleted="removeElement(index)"></reply>
         </div>
     </div>
 </template>
@@ -24,7 +24,8 @@
         },
 
         methods: {
-            remove(index) {
+            // remove 是保留字, remove 方法改为 removeElement 方法
+            removeElement(index) {
                 this.items.splice(index, 1);
 
                 this.$emit('removed');

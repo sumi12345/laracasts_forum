@@ -74,7 +74,7 @@ class UserParticipateTest extends TestCase
 
         $this->delete("/replies/{$reply->id}")
             ->notSeeInDatabase('replies', ['id' => $reply->id])
-            ->assertResponseStatus(302);
+            ->seeStatusCode(200);
     }
 
     /** @test */

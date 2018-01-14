@@ -2019,7 +2019,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
     methods: {
-        remove: function remove(index) {
+        removeElement: function removeElement(index) {
             this.items.splice(index, 1);
 
             this.$emit('removed');
@@ -2485,7 +2485,7 @@ var Component = __webpack_require__(1)(
   /* cssModules */
   null
 )
-Component.options.__file = "H:\\PHP\\laravel-5.1\\resources\\assets\\js\\components\\Favorite.vue"
+Component.options.__file = "/home/sumi/laravel-5.1/resources/assets/js/components/Favorite.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] Favorite.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -2523,7 +2523,7 @@ var Component = __webpack_require__(1)(
   /* cssModules */
   null
 )
-Component.options.__file = "H:\\PHP\\laravel-5.1\\resources\\assets\\js\\components\\Flash.vue"
+Component.options.__file = "/home/sumi/laravel-5.1/resources/assets/js/components/Flash.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] Flash.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -2557,7 +2557,7 @@ var Component = __webpack_require__(1)(
   /* cssModules */
   null
 )
-Component.options.__file = "H:\\PHP\\laravel-5.1\\resources\\assets\\js\\components\\Replies.vue"
+Component.options.__file = "/home/sumi/laravel-5.1/resources/assets/js/components/Replies.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] Replies.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -2591,7 +2591,7 @@ var Component = __webpack_require__(1)(
   /* cssModules */
   null
 )
-Component.options.__file = "H:\\PHP\\laravel-5.1\\resources\\assets\\js\\components\\Reply.vue"
+Component.options.__file = "/home/sumi/laravel-5.1/resources/assets/js/components/Reply.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] Reply.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -2625,7 +2625,7 @@ var Component = __webpack_require__(1)(
   /* cssModules */
   null
 )
-Component.options.__file = "H:\\PHP\\laravel-5.1\\resources\\assets\\js\\components\\ThreadView.vue"
+Component.options.__file = "/home/sumi/laravel-5.1/resources/assets/js/components/ThreadView.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 
 /* hot reload */
@@ -2679,13 +2679,15 @@ if (false) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', _vm._l((_vm.items), function(reply, index) {
-    return _c('div', [_c('reply', {
+    return _c('div', {
+      key: reply.id
+    }, [_c('reply', {
       attrs: {
         "data": reply
       },
       on: {
         "deleted": function($event) {
-          _vm.remove(index)
+          _vm.removeElement(index)
         }
       }
     })], 1)
