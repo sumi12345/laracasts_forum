@@ -50,10 +50,14 @@ class ReplyController extends Controller
 
         Log::debug('ReplyController@store add reply: ' . request('body'));
 
-        $thread->addReply([
+        $reply = $thread->addReply([
             'body' => request('body'),
             'user_id' => auth()->id()
         ]);
+
+        if (request()->wantsJson()) {
+            return $reply->load('owner');
+        }
 
         return redirect($thread->path());
     }

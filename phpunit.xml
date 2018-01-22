@@ -25,6 +25,6 @@
         <env name="SESSION_DRIVER" value="array"/>
         <env name="QUEUE_DRIVER" value="sync"/>
 
-        <env name="DB_DATABASE" value="lrv_forum_test"/>
+        <env name="DB_DATABASE" value="laracasts_forum_test"/>
     </php>
 </phpunit>

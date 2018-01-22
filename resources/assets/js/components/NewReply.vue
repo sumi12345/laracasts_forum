@@ -1,0 +1,41 @@
+<template>
+    <div>
+        <div v-if="signedIn">
+            <div class="form-group">
+                <textarea v-model="body" name="body" id="body" rows="3" class="form-control" placeholder="说点什么?"></textarea>
+            </div>
+            <button @click="addReply" type="submit" class="btn btn-primary">发布</button>
+        </div>
+
+        <div v-else><p>要发表评论请先 <a href="/auth/login">登录</a></p></div>
+    </div>
+</template>
+<script>
+    export default {
+        props: ['endpoint'],
+
+        data() {
+            return {
+                body: '',
+            }
+        },
+
+        methods: {
+            // {data} 是为了把 data 转换为 json
+            addReply() {
+                axios.post(this.endpoint, { body: this.body })
+                    .then(({data}) => {
+                       this.body = '';
+                       flash('回复发表成功!');
+                       this.$emit('created', data);
+                    });
+            }
+        },
+
+        computed: {
+            signedIn() {
+                return window.App.signedIn;
+            }
+        },
+    }
+</script>

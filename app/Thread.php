@@ -34,6 +34,8 @@ class Thread extends Model
         return '/threads/'.$this->channel->slug.'/'.$this->id;
     }
 
+    //----relations----
+
     public function replies()
     {
         return $this->hasMany(Reply::class);
@@ -59,10 +61,25 @@ class Thread extends Model
         return $this->hasMany('App\Activity');
     }
 
+    public function subscriptions()
+    {
+        return $this->hasMany('App\ThreadSubscription');
+    }
+
+    //----behavior----
+
     public function addReply($reply)
     {
-        $this->replies()->create($reply);
+        return $this->replies()->create($reply);
     }
+
+    public function subscribe()
+    {
+
+    }
+
+
+    //----scope----
 
     /**
      * Query Scope

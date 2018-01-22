@@ -2,6 +2,7 @@
 /storage
 /vendor
 /node_modules
+public/js/app.js
 Homestead.yaml
 Homestead.json
 .env

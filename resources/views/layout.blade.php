@@ -76,7 +76,7 @@
 <script>
     window.App = {!! json_encode([
         'csrfToken' => csrf_token(),
-        'signeIn' => auth()->check(),
+        'signedIn' => auth()->check(),
         'user' => auth()->user()
     ]) !!};
 </script>

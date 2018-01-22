@@ -15,7 +15,7 @@
                 </div>
             </div>
 
-            <replies :data="{{ $thread->replies }}" @removed="repliesCount--"></replies>
+            <replies :data="{{ $thread->replies->toJson() }}" @added="repliesCount++" @removed="repliesCount--"></replies>
 
             {{--
             @foreach ($replies as $reply)
@@ -24,17 +24,6 @@
             @endforeach
             {!! $replies->render() !!}
             --}}
-
-            @if (auth()->check())
-            <form method="POST" action="{{ $thread->path() . '/replies' }}">
-                <div class="form-group">
-                    <textarea name="body" id="body" rows="3" class="form-control" placeholder="说点什么?"></textarea>
-                </div>
-                <button type="submit" class="btn btn-primary">发布</button>
-            </form>
-            @else
-            <div><p>要发表评论请先 <a href="{{ url('auth/login') }}">登录</a></p></div>
-            @endif
 
         </div>
 

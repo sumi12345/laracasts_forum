@@ -35,7 +35,7 @@ class User extends Model implements AuthenticatableContract,
      *
      * @var array
      */
-    protected $hidden = ['password', 'remember_token'];
+    protected $hidden = ['password', 'remember_token', 'email'];
 
     /**
      * 这个用户创建的所有帖子

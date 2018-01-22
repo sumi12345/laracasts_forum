@@ -4,8 +4,9 @@ window.Vue = require('vue');
 // axios
 window.axios = require('axios');
 
-window.axios.defaults.headers.common = {
-    //'X-CSRF-TOKEN': window.Laravel.csrfToken,
+window.axios.defaults.headers.post = {
+    'Accept': 'application/json',
+    'X-CSRF-TOKEN': window.App.csrfToken,
     'X-Requested-With': 'XMLHttpRequest'
 };
 
