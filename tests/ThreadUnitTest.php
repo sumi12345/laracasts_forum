@@ -38,4 +38,23 @@ class ThreadUnitTest extends TestCase
         $thread = create('App\Thread');
         $this->assertEquals("/threads/{$thread->channel->slug}/{$thread->id}", $thread->path());
     }
+
+    /** @test */
+    public function a_thread_can_be_subscribed_to() {
+        $thread = create('App\Thread');
+
+        $subscription = $thread->subscribe($userId = 1);
+
+        $this->assertEquals(1, $subscription->user_id);
+    }
+
+    /** @test */
+    public function a_thread_can_be_unsubscribed_from() {
+        $thread = create('App\Thread');
+        $subscription = $thread->subscribe($userId = 1);
+
+        $thread->unsubscribe($userId);
+
+        $this->notSeeInDatabase('thread_subscriptions', ['id' => $subscription->id]);
+    }
 }

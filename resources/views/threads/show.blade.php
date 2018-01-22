@@ -15,15 +15,8 @@
                 </div>
             </div>
 
-            <replies :data="{{ $thread->replies->toJson() }}" @added="repliesCount++" @removed="repliesCount--"></replies>
-
-            {{--
-            @foreach ($replies as $reply)
-                @include('threads.reply', ['reply' => $reply])
-                <p><hr></p>
-            @endforeach
-            {!! $replies->render() !!}
-            --}}
+            <replies :data="{{ json_encode($replies) }}" @added="repliesCount++" @removed="repliesCount--"></replies>
+            {!! $replies_link !!}
 
         </div>
 

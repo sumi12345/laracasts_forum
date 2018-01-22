@@ -73,9 +73,16 @@ class Thread extends Model
         return $this->replies()->create($reply);
     }
 
-    public function subscribe()
+    public function subscribe($userId = null)
     {
+        return $this->subscriptions()->create([
+            'user_id' => $userId ?: auth()->id()
+        ]);
+    }
 
+    public function unsubscribe($userId = null)
+    {
+        $this->subscriptions()->where('user_id', $userId ?: auth()->id())->delete();
     }
 
 
