@@ -38,6 +38,9 @@ Route::post('/threads/{channel}/{thread}/replies', 'ReplyController@store');
 Route::patch('/replies/{reply}', 'ReplyController@update');
 Route::delete('/replies/{reply}', 'ReplyController@destroy');
 
+// 订阅
+Route::post('/threads/{channel}/{thread}/subscriptions', 'ThreadSubscriptionController@store');
+
 // 点赞
 Route::get('/replies/{reply}/favorites', 'FavoriteController@index');
 Route::post('/replies/{reply}/favorites', 'FavoriteController@store');
