@@ -1,11 +1,13 @@
 <script>
     import Replies from './Replies.vue';
+    import Subscribe from './Subscribe.vue';
 
     export default {
         props: ['initialRepliesCount'],
 
         components: {
-            'replies' : Replies
+            subscribe: Subscribe,
+            replies: Replies
         },
 
         data() {

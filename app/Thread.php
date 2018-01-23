@@ -13,6 +13,8 @@ class Thread extends Model
 
     protected $with = ['creator', 'channel'];
 
+    protected $appends = ['isSubscribedTo'];
+
     protected static function boot() {
         parent::boot();
 
@@ -41,11 +43,6 @@ class Thread extends Model
         return $this->hasMany(Reply::class);
     }
 
-    public function getRepliesCountAttribute()
-    {
-        return $this->replies()->count();
-    }
-
     public function creator()
     {
         return $this->belongsTo(User::class, 'user_id');
@@ -64,6 +61,18 @@ class Thread extends Model
     public function subscriptions()
     {
         return $this->hasMany('App\ThreadSubscription');
+    }
+
+    //----attributes----
+
+    public function getRepliesCountAttribute()
+    {
+        return $this->replies()->count();
+    }
+
+    public function getIsSubscribedToAttribute()
+    {
+        return $this->subscriptions()->where('user_id', auth()->id())->exists();
     }
 
     //----behavior----

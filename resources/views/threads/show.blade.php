@@ -39,6 +39,7 @@
                     </form>
                     @endcan
 
+                    <subscribe :active="{{ $thread->isSubscribedTo ? 'true' : 'false' }}"></subscribe>
                 </div>
             </div>
 

@@ -40,6 +40,7 @@ Route::delete('/replies/{reply}', 'ReplyController@destroy');
 
 // 订阅
 Route::post('/threads/{channel}/{thread}/subscriptions', 'ThreadSubscriptionController@store');
+Route::delete('/threads/{channel}/{thread}/subscriptions', 'ThreadSubscriptionController@destroy');
 
 // 点赞
 Route::get('/replies/{reply}/favorites', 'FavoriteController@index');
