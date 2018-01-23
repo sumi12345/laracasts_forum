@@ -21,6 +21,26 @@ class NotificationTest extends TestCase
     }
 
     /** @test */
+    public function a_user_can_fetch_their_unread_notifications()
+    {
+        $thread = create('App\Thread');
+        $user = create('App\User');
+        $this->signIn($user);  // need to be a new user
+
+        $thread->subscribe();
+        $thread->addReply([
+            'user_id' => create('App\User')->id,
+            'body' => 'some reply here',
+        ]);
+
+        $endpoint = '/profiles/'.$user->name.'/notifications';
+        $response = $this->get($endpoint, ['Accept' =>  'application/json'])->response;
+        $response = json_decode($response->getContent());
+
+        $this->assertCount(1, $response);
+    }
+
+    /** @test */
     public function a_user_can_mark_a_notification_as_read() {
         $thread = create('App\Thread');
         $user = create('App\User');

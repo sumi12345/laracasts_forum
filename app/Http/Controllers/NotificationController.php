@@ -13,6 +13,11 @@ class NotificationController extends Controller
         $this->middleware('auth');
     }
 
+    public function index()
+    {
+        return auth()->user()->unreadNotifications;
+    }
+
     /**
      * Remove the specified resource from storage.
      *
