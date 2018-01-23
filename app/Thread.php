@@ -86,6 +86,7 @@ class Thread extends Model
         // notify 方法由 User 使用的 Notifiable trait 提供
         // ThreadWasUpdated 是一个 Notification
         foreach ($this->subscriptions as $subscription) {
+            if ($subscription->user_id == $reply->user_id) continue;
             $subscription->user->notify(new ThreadWasUpdated($this, $reply));
         }
 

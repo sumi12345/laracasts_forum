@@ -13,10 +13,28 @@ class NotificationTest extends TestCase
 
         $thread->subscribe();
         $thread->addReply([
-            'user_id' => auth()->id(),
+            'user_id' => create('App\User')->id,
             'body' => 'some reply here',
         ]);
 
         $this->seeInDatabase('notifications', ['notifiable_id' => auth()->id()]);
+    }
+
+    /** @test */
+    public function a_user_can_mark_a_notification_as_read() {
+        $thread = create('App\Thread');
+        $user = create('App\User');
+        $this->signIn($user);  // need to be a new user
+
+        $thread->subscribe();
+        $thread->addReply([
+            'user_id' => create('App\User')->id,
+            'body' => 'some reply here',
+        ]);
+        $notification = $user->fresh()->notifications->first();
+
+        $this->delete('/profiles/'.$user->name.'/notifications/'.$notification->id);
+
+        $this->assertCount(0, $user->fresh()->unreadNotifications);
     }
 }
