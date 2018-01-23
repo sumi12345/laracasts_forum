@@ -3,13 +3,20 @@
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Notifications\DatabaseNotification;
 
 class NotificationTest extends TestCase
 {
+    public function setUp()
+    {
+        parent::setUp();
+
+        $this->signIn();
+    }
+
     /** @test */
     public function a_notification_is_prepared_when_a_subscribed_thread_add_a_reply() {
         $thread = create('App\Thread');
-        $this->signIn();  // need to be a new user
 
         $thread->subscribe();
         $thread->addReply([
@@ -23,37 +30,21 @@ class NotificationTest extends TestCase
     /** @test */
     public function a_user_can_fetch_their_unread_notifications()
     {
-        $thread = create('App\Thread');
-        $user = create('App\User');
-        $this->signIn($user);  // need to be a new user
+        create(DatabaseNotification::class, ['notifiable_id' => auth()->id()]);
 
-        $thread->subscribe();
-        $thread->addReply([
-            'user_id' => create('App\User')->id,
-            'body' => 'some reply here',
-        ]);
-
-        $endpoint = '/profiles/'.$user->name.'/notifications';
+        $endpoint = '/profiles/'.auth()->user()->name.'/notifications';
         $response = $this->get($endpoint, ['Accept' =>  'application/json'])->response;
-        $response = json_decode($response->getContent());
 
-        $this->assertCount(1, $response);
+        $this->assertCount(1, json_decode($response->getContent()));
     }
 
     /** @test */
     public function a_user_can_mark_a_notification_as_read() {
-        $thread = create('App\Thread');
-        $user = create('App\User');
-        $this->signIn($user);  // need to be a new user
+        $notification = create(DatabaseNotification::class, ['notifiable_id' => auth()->id()]);
+        $user = auth()->user();
 
-        $thread->subscribe();
-        $thread->addReply([
-            'user_id' => create('App\User')->id,
-            'body' => 'some reply here',
-        ]);
-        $notification = $user->fresh()->notifications->first();
-
-        $this->delete('/profiles/'.$user->name.'/notifications/'.$notification->id);
+        $endpoint = '/profiles/'.$user->name.'/notifications/'.$notification->id;
+        $this->delete($endpoint);
 
         $this->assertCount(0, $user->fresh()->unreadNotifications);
     }
