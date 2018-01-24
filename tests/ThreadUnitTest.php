@@ -27,12 +27,11 @@ class ThreadUnitTest extends TestCase
         $this->assertCount(1, $this->thread->replies);
     }
 
+    /** @test */
     public function a_thread_notifies_all_subscribers_when_a_reply_is_added()
     {
-        // failed 因为 5.1 内核并不带 Notification 的 faker
-        // 安装方式: https://github.com/laravel-notification-channels/backport (fake 不可用)
-        // 官方文档: https://laravel.com/docs/5.3/mocking#notification-fakes
-        Notification::fake();
+        // https://laravel.com/docs/5.1/testing#mocking-facades
+        Notification::shouldReceive('send')->once();
 
         $this->signIn();
 
@@ -41,8 +40,6 @@ class ThreadUnitTest extends TestCase
             'user_id' => create('App\User')->id, // not the signed in one
             'body' => 'a_thread_notifies_all_subscribers_when_a_reply_is_added'
         ]);
-
-        Notification::assertSentTo(auth()->user(), \App\Notifications\ThreadWasUpdated::class);
     }
 
     /** @test */
