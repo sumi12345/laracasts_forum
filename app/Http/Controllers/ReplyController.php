@@ -9,6 +9,7 @@ use App\Http\Controllers\Controller;
 
 use Log;
 use App\Thread;
+use App\Spam;
 
 class ReplyController extends Controller
 {
@@ -42,12 +43,14 @@ class ReplyController extends Controller
      *
      * @param string $channel_slug
      * @param \App\Thread $thread
+     * @param \App\Spam $spam
      * @return \Illuminate\Http\Response
      */
-    public function store($channel_slug, Thread $thread)
+    public function store($channel_slug, Thread $thread, Spam $spam)
     {
-        throw new \Exception('Your reply contains spam.');
         $this->validate(request(), ['body' => 'required']);
+
+        $spam->detect(request('body'));
 
         Log::debug('ReplyController@store add reply: ' . request('body'));
 
