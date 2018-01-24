@@ -29,6 +29,7 @@ const app = new Vue({
     el: '#app',
     components: {
         'flash': require('./components/Flash.vue'),
-        'thread-view': require('./components/ThreadView.vue')
+        'thread-view': require('./components/ThreadView.vue'),
+        'notifications': require('./components/Notifications.vue')
     }
 });
