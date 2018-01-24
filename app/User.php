@@ -50,4 +50,12 @@ class User extends Model implements AuthenticatableContract,
     {
         return $this->hasMany('App\Activity');
     }
+    
+    //----behaviors----
+
+    public function read($thread)
+    {
+        $key = 'users.'.auth()->id().'.visits.'.$thread->id;
+        \Cache::forever($key, \Carbon\Carbon::now());
+    }
 }

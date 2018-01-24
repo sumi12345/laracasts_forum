@@ -37,6 +37,14 @@ class Thread extends Model
         return '/threads/'.$this->channel->slug.'/'.$this->id;
     }
 
+    public function hasUpdatesFor()
+    {
+        if (! auth()->check()) return false;
+
+        // 比较用户上次访问时间和帖子更新时间
+        return $this->updated_at > \Cache::get('users.'.auth()->id().'.visits.'.$this->id);
+    }
+
     //----relations----
 
     public function replies()

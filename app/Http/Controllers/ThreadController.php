@@ -105,6 +105,10 @@ class ThreadController extends Controller
             'replies_link' => $replies->render()
         ];
 
+        if (auth()->check()) {
+            auth()->user()->read($thread);
+        }
+
         return view('threads.show', $params);
     }
 
