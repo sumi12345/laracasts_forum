@@ -105,4 +105,17 @@ class UserParticipateTest extends TestCase
             ->seeInDatabase('replies', ['id' => $reply->id, 'body' => $new_body]);
     }
 
+    /** @test */
+    public function replies_that_contain_spam_may_not_be_created()
+    {
+        $this->disableExceptionHandling();
+        $this->setExpectedException(\Exception::class);
+
+        $reply = make('App\Reply', [
+            'body' => 'Yahoo Customer Suppport'
+        ]);
+        $this->signIn($reply->owner);
+
+        $this->post($reply->thread->path().'/replies', $reply->toArray());
+    }
 }
