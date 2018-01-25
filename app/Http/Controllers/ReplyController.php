@@ -48,11 +48,7 @@ class ReplyController extends Controller
      */
     public function store($channel_slug, Thread $thread, Spam $spam)
     {
-        $this->validate(request(), ['body' => 'required']);
-
-        $spam->detect(request('body'));
-
-        Log::debug('ReplyController@store add reply: ' . request('body'));
+        $this->validateReply();
 
         $reply = $thread->addReply([
             'body' => request('body'),
@@ -98,6 +94,8 @@ class ReplyController extends Controller
     {
         $this->authorize('update', $reply);
 
+        $this->validateReply();
+
         $reply->update(['body' => request('body')]);
 
         return response(['status' => 'Reply updated!']);
@@ -116,5 +114,12 @@ class ReplyController extends Controller
         $reply->delete();
 
         return response(['status' => 'Reply deleted!']);
+    }
+
+    protected function validateReply()
+    {
+        $this->validate(request(), ['body' => 'required']);
+
+        resolve(Spam::class)->detect(request('body'));
     }
 }
