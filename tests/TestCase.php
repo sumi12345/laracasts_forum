@@ -29,7 +29,7 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase
     /** 模拟用户登录 */
     protected function signIn($user = null)
     {
-        $user = $user ?: create('App\User');
+        $user = $user ?: getLast('App\User');
         $this->be($user);
         return $this;
     }

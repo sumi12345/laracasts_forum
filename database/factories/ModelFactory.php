@@ -12,18 +12,20 @@
 */
 
 $factory->define(App\User::class, function (Faker\Generator $faker) {
+    $name = $faker->name;
+
     return [
-        'name' => $faker->name,
+        'name' => $name,
         'email' => $faker->email,
-        'password' => bcrypt(str_random(10)),
+        'password' => bcrypt($name),
         'remember_token' => str_random(10),
     ];
 });
 
 $factory->define(App\Thread::class, function (Faker\Generator $faker) {
     return [
-        'user_id' => factory('App\User')->create()->id,
-        'channel_id' => factory('App\Channel')->create()->id,
+        'user_id' => notMe()->id,
+        'channel_id' => getLast('App\Channel')->id,
         'title' => $faker->sentence,
         'body' => $faker->paragraph,
     ];
@@ -31,8 +33,8 @@ $factory->define(App\Thread::class, function (Faker\Generator $faker) {
 
 $factory->define(App\Reply::class, function (Faker\Generator $faker) {
     return [
-        'user_id' => factory('App\User')->create()->id,
-        'thread_id' => factory('App\Thread')->create()->id,
+        'user_id' => notMe()->id,
+        'thread_id' => getLast('App\Thread')->id,
         'body' => $faker->paragraph,
     ];
 });
@@ -50,7 +52,7 @@ $factory->define(Illuminate\Notifications\DatabaseNotification::class, function 
     return [
         'id' => \Ramsey\Uuid\Uuid::uuid4()->toString(),
         'type' => \App\Notifications\ThreadWasUpdated::class,
-        'notifiable_id' => factory('App\User')->create()->id,
+        'notifiable_id' => notMe()->id,
         'notifiable_type' => \App\User::class,
         'data' => ['message' => $faker->sentence]
     ];

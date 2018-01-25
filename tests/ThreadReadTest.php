@@ -46,9 +46,9 @@ class ThreadReadTest extends TestCase
     /** @test */
     public function a_user_can_filter_threads_according_to_a_channel()
     {
-        $channel = factory('App\Channel')->create();
-        $threadInChannel = factory('App\Thread')->create(['channel_id' => $channel->id]);
-        $threadNotInChannel = factory('App\Thread')->create();
+        $channel = create('App\Channel');
+        $threadInChannel = create('App\Thread', ['channel_id' => $channel->id]);
+        $threadNotInChannel = create('App\Thread', ['channel_id' => create('App\Channel')->id]);
 
         $this->get('/threads/'.$channel->slug)
             ->see($threadInChannel->title)
