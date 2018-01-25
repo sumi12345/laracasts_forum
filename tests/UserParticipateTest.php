@@ -106,14 +106,6 @@ class UserParticipateTest extends TestCase
     }
 
     /** @test */
-    public function it_detects_spam()
-    {
-        $spam = new \App\Spam();
-
-        $this->assertFalse($spam->detect('innocent reply here'));
-    }
-
-    /** @test */
     public function replies_that_contain_spam_may_not_be_created()
     {
         $this->disableExceptionHandling();

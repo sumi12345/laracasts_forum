@@ -5,10 +5,15 @@ namespace App;
 
 class Spam
 {
+    protected $inspections = [
+        \App\Inspections\InvalidKeyword::class,
+        \App\Inspections\KeyHeldDown::class,
+    ];
+
     public function detect($body)
     {
-        if (mb_strpos($body, 'Yahoo') !== false) {
-            throw new \Exception('Your reply contains spam.');
+        foreach ($this->inspections as $inspection) {
+            app($inspection)->detect($body);
         }
 
         return false;
