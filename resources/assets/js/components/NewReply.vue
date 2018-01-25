@@ -28,6 +28,9 @@
                        this.body = '';
                        flash('回复发表成功!');
                        this.$emit('created', data);
+                    })
+                    .catch(error => {
+                        flash(error.response.data);
                     });
             }
         },

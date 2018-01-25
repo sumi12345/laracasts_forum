@@ -2303,6 +2303,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 _this.body = '';
                 flash('回复发表成功!');
                 _this.$emit('created', data);
+            }).catch(function (error) {
+                flash(error.response.data);
             });
         }
     },
@@ -2503,13 +2505,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
     methods: {
         update: function update() {
-            axios.patch('/replies/' + this.data.id, {
-                body: this.body
+            var _this2 = this;
+
+            axios.patch('/replies/' + this.data.id, { body: this.body }).then(function () {
+                _this2.editing = false;
+                flash('Updated');
+            }).catch(function (error) {
+                flash(error.response.data);
             });
-
-            this.editing = false;
-
-            flash('Updated');
         },
         destroy: function destroy() {
             // axios.delete('/replies/' + this.data.id);
