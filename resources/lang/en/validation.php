@@ -87,11 +87,7 @@ return [
     |
     */
 
-    'custom' => [
-        'attribute-name' => [
-            'rule-name' => 'custom-message',
-        ],
-    ],
+    'spamfree' => 'The :attribute contains spam.',
 
     /*
     |--------------------------------------------------------------------------

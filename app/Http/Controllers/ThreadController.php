@@ -29,7 +29,7 @@ class ThreadController extends Controller
     public function index(Channel $channel, ThreadFilter $filter)
     {
         // 定义 threads 变量
-        $threads = Thread::with('channel')->orderBy('created_at', 'desc');
+        $threads = Thread::with('channel')->orderBy('id', 'desc');
 
         // 筛选频道
         if ($channel->exists) {
@@ -71,8 +71,8 @@ class ThreadController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'title' => 'required',
-            'body' => 'required',
+            'title' => 'required|spamfree',
+            'body' => 'required|spamfree',
             'channel_id' => 'required|exists:channels,id',
         ]);
 

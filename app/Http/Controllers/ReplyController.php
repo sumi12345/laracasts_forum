@@ -9,7 +9,6 @@ use App\Http\Controllers\Controller;
 
 use Log;
 use App\Thread;
-use App\Spam;
 
 class ReplyController extends Controller
 {
@@ -43,13 +42,12 @@ class ReplyController extends Controller
      *
      * @param string $channel_slug
      * @param \App\Thread $thread
-     * @param \App\Spam $spam
      * @return \Illuminate\Http\Response
      */
-    public function store($channel_slug, Thread $thread, Spam $spam)
+    public function store($channel_slug, Thread $thread)
     {
         try {
-            $this->validateReply();
+            $this->validate(request(), ['body' => 'required|spamfree']);
 
             $reply = $thread->addReply([
                 'body' => request('body'),
@@ -99,13 +97,14 @@ class ReplyController extends Controller
         try {
             $this->authorize('update', $reply);
 
-            $this->validateReply();
+            $this->validate(request(), ['body' => 'required|spamfree']);
 
             $reply->update(['body' => request('body')]);
 
             return response(['status' => 'Reply updated!']);
         } catch (\Exception $e) {
-            return response('Sorry, your reply could not be saved at this time.', 422);
+            $message = 'Sorry, your reply could not be saved at this time.';
+            return response($message, 422);
         }
     }
 
@@ -124,10 +123,4 @@ class ReplyController extends Controller
         return response(['status' => 'Reply deleted!']);
     }
 
-    protected function validateReply()
-    {
-        $this->validate(request(), ['body' => 'required']);
-
-        app(Spam::class)->detect(request('body'));
-    }
 }

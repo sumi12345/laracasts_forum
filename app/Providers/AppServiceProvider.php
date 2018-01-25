@@ -24,6 +24,15 @@ class AppServiceProvider extends ServiceProvider
 
             $view->with('channels', $channels);
         });
+
+        // $attribute: name of the input
+        \Validator::extend('spamfree', function($attribute, $value, $parameters, $validator) {
+            try {
+                return ! app(\App\Spam::class)->detect($value);
+            } catch(\Exception $e) {
+                return false;
+            }
+        });
     }
 
     /**
