@@ -38,9 +38,13 @@ class User extends Model implements AuthenticatableContract,
      */
     protected $hidden = ['password', 'remember_token', 'email'];
 
-    /**
-     * 这个用户创建的所有帖子
-     */
+    //----relationships----
+
+    public function lastReply()
+    {
+        return $this->hasOne('App\Reply')->orderBy('id', 'desc');
+    }
+
     public function threads()
     {
         return $this->hasMany('App\Thread');

@@ -30,4 +30,11 @@ class Reply extends Model
     {
         return $this->thread->path().'#reply-'.$this->id;
     }
+
+    //----attributes----
+
+    public function wasJustPublished()
+    {
+        return $this->created_at > \Carbon\Carbon::now()->subMinute();
+    }
 }

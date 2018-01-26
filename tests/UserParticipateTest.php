@@ -108,14 +108,26 @@ class UserParticipateTest extends TestCase
     /** @test */
     public function replies_that_contain_spam_may_not_be_created()
     {
-        $this->disableExceptionHandling();
-        $this->setExpectedException(\Exception::class);
-
         $reply = make('App\Reply', [
             'body' => 'Yahoo Customer Suppport'
         ]);
         $this->signIn($reply->owner);
 
         $this->post($reply->thread->path().'/replies', $reply->toArray());
+        $this->seeStatusCode(422);
+    }
+
+    /** @test */
+    public function users_may_only_reply_once_per_minute()
+    {
+        $reply = make('App\Reply');
+        $thread = create('App\Thread');
+        $this->signIn();
+
+        $this->json('post', $thread->path().'/replies', $reply->toArray())
+            ->seeStatusCode(200);
+
+        $this->json('post', $thread->path().'/replies', $reply->toArray())
+            ->seeStatusCode(422);
     }
 }
