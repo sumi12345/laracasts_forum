@@ -9,7 +9,7 @@ class ReplyPolicy
 {
     public function create(User $user, Reply $reply)
     {
-        return ! $user->lastReply || ! $user->lastReply->wasJustPublished();
+        return ! $user->fresh()->lastReply || ! $user->lastReply->wasJustPublished();
     }
 
     public function update(User $user, Reply $reply)

@@ -113,7 +113,7 @@ class UserParticipateTest extends TestCase
         ]);
         $this->signIn($reply->owner);
 
-        $this->post($reply->thread->path().'/replies', $reply->toArray());
+        $this->json('post', $reply->thread->path().'/replies', $reply->toArray());
         $this->seeStatusCode(422);
     }
 
@@ -128,6 +128,6 @@ class UserParticipateTest extends TestCase
             ->seeStatusCode(200);
 
         $this->json('post', $thread->path().'/replies', $reply->toArray())
-            ->seeStatusCode(422);
+            ->seeStatusCode(429);
     }
 }

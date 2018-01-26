@@ -9,6 +9,7 @@ use App\Http\Controllers\Controller;
 
 use Log;
 use App\Thread;
+use App\Http\Requests\CreateReplyRequest;
 
 class ReplyController extends Controller
 {
@@ -18,50 +19,27 @@ class ReplyController extends Controller
     }
 
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param string $channel_slug
      * @param \App\Thread $thread
+     * @param \App\Http\Requests\CreateReplyRequest $form
      * @return \Illuminate\Http\Response
      */
-    public function store($channel_slug, Thread $thread)
+    public function store($channel_slug, Thread $thread, CreateReplyRequest $form)
     {
-        try {
-            $this->validate(request(), ['body' => 'required|spamfree']);
+        // 引入 CreateReplyRequest, 自动执行 Form Request Validation
+        // validation 不通过会 throw ValidationException
+        // 返回 422, {body: ["The body contains spam."]}
+        // authorize 不通过会 throw AuthorizationException, 定义在 failedAuthorization()
+        // 返回 403, forbidden
+        // 403 提示太笼统, 可以自定义 ThrottleException, 并在 Handler 中处理
 
-            $reply = $thread->addReply([
-                'body' => request('body'),
-                'user_id' => auth()->id()
-            ]);
-
-            if (request()->wantsJson()) {
-                return $reply->load('owner');
-            }
-
-            return redirect($thread->path());
-        } catch (\Exception $e) {
-            return response('Sorry, your reply could not be saved at this time.', 422);
-        }
+        // 只通过 json 访问, 直接返回 json
+        return $thread->addReply([
+            'body' => request('body'),
+            'user_id' => auth()->id()
+        ])->load('owner');
     }
 
     /**
