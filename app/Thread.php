@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Events\NewReply;
 use App\Notifications\ThreadWasUpdated;
 use App\Scopes\RepliesCountScope;
 use Illuminate\Database\Eloquent\Model;
@@ -89,6 +90,8 @@ class Thread extends Model
     public function addReply($reply)
     {
         $reply = $this->replies()->create($reply);
+
+        event(new \App\Events\NewReply($reply));
 
         // 通知所有订阅这个帖子的用户
         // notify 方法由 User 使用的 Notifiable trait 提供

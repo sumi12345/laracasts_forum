@@ -19,7 +19,7 @@ function getLast($class)
 function notMe()
 {
     $me = auth()->check() ? auth()->id() : getLast('App\User')->id;
-    $notMe = \App\User::orderBy('id', 'desc')->where('id', '!=', $me)->first();
+    $notMe = \App\User::orderBy('id', 'desc')->where('id', '<', $me)->first();
     if (! empty($notMe)) return $notMe;
 
     $newUser = create('App\User', [], 2);

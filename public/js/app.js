@@ -14013,7 +14013,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             });
         },
         destroy: function destroy() {
-            // axios.delete('/replies/' + this.data.id);
+            axios.delete('/replies/' + this.data.id);
 
             this.$emit('deleted');
         }

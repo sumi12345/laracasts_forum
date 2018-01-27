@@ -26,7 +26,7 @@
                 <button class="btn btn-success btn-xs" @click="update">提交</button>
                 <button class="btn btn-default btn-xs" @click="editing = false">取消</button>
             </div>
-            <div v-else v-text="body"></div>
+            <div v-else v-html="body"></div>
 
             <div v-if="canUpdate" class="mt-1">
                 <button type="button" class="btn btn-default" @click="editing = true">编辑</button>
@@ -85,7 +85,7 @@
             },
 
             destroy() {
-                // axios.delete('/replies/' + this.data.id);
+                axios.delete('/replies/' + this.data.id);
 
                 this.$emit('deleted');
             }
