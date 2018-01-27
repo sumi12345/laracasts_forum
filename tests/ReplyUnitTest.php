@@ -33,4 +33,17 @@ class ReplyUnitTest extends TestCase
 
         $this->assertFalse($reply->wasJustPublished());
     }
+
+    /** @test */
+    public function it_fetchs_mentioned_users_starting_with_given_characters()
+    {
+        // create('App\User', ['name' => 'JohnDoe']);
+        // create('App\User', ['name' => 'JaneDoe']);
+
+        $this->json('get', '/api/users', ['name' => 'John']);
+
+        $usernames = array_column(json_decode($this->response->getContent()), 'name');
+        $this->assertTrue(false !== array_search('JohnDoe', $usernames));
+        $this->assertTrue(false === array_search('JaneDoe', $usernames));
+    }
 }

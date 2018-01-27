@@ -17,7 +17,9 @@
     "vue": "2.5.13"
   },
   "dependencies": {
+    "at.js": "^1.5.3",
     "babel-core": "^6.26.0",
-    "babel-loader": "^7.1.2"
+    "babel-loader": "^7.1.2",
+    "jquery.caret": "^0.3.1"
   }
 }

@@ -53,3 +53,6 @@ Route::get('/profiles/{user}', 'ProfileController@show')->name('profile');
 // 通知
 Route::get('/profiles/{userName}/notifications', 'NotificationController@index');
 Route::delete('/profiles/{userName}/notifications/{id}', 'NotificationController@destroy');
+
+// 用户名自动完成
+Route::get('api/users', 'UserController@index');

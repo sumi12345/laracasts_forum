@@ -51,12 +51,12 @@
                     </ul>
 
                     <ul class="nav navbar-nav navbar-right">
-                        <notifications></notifications>
-
                         @if (Auth::guest())
                             <li><a href="{{ url('/auth/login') }}">Login</a></li>
                             <li><a href="{{ url('/auth/register') }}">Register</a></li>
                         @else
+                            <notifications></notifications>
+
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">{{ Auth::user()->name }} <span class="caret"></span></a>
                                 <ul class="dropdown-menu" role="menu">
@@ -83,7 +83,7 @@
     ]) !!};
 </script>
 <script src="/js/app.js"></script>
-
+@yield('header')
 <style>
     .level { display:flex; align-items: center; }
     .flex { flex: 1; }

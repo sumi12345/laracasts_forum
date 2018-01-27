@@ -11,6 +11,9 @@
     </div>
 </template>
 <script>
+    import 'jquery.caret'; // solve this.$inputor.caret is not a function
+    import 'at.js';  // solve TypeError: $(...).atwho is not a function
+
     export default {
         props: ['endpoint'],
 
@@ -40,5 +43,21 @@
                 return window.App.signedIn;
             }
         },
+
+        mounted() {
+            $('#body').atwho({
+                at: '@',
+                delay: 750,
+                insertTpl: "<a href='/profiles/${name}'>@${name}</a>",
+                callbacks: {
+                    // https://github.com/ichord/At.js/wiki/How-to-use-remoteFilter
+                    remoteFilter(query, callback) {
+                        $.getJSON("/api/users", {name: query}, function(data) {
+                            callback(data);
+                        });
+                    }
+                }
+            })
+        }
     }
 </script>
