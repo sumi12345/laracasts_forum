@@ -24,7 +24,7 @@ class AvatarController extends Controller
         $file = request()->file('avatar')->move('storage/avatars', sha1_file($ori_path).'.jpg');
         //echo 'file moved!!!';
         auth()->user()->update([
-            'avatar_path' => $file
+            'avatar_path' => $file->getPathname(),
         ]);
     }
 }

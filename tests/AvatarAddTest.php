@@ -40,5 +40,6 @@ class AvatarAddTest extends TestCase
 
         $this->seeStatusCode(200);
         $this->assertTrue(file_exists('storage/avatars/'.$file_hash.'.jpg'));
+        $this->assertEquals('storage/avatars/'.$file_hash.'.jpg', auth()->user()->avatar_path);
     }
 }

@@ -37,7 +37,7 @@ class YouWereMentioned extends Notification
     public function toArray($notifiable)
     {
         return [
-            'message' => 'you are mentioned by ['.$this->reply->owner.']',
+            'message' => 'you are mentioned by ['.$this->reply->owner->name.']',
             'link' => $this->reply->path(),
         ];
     }
