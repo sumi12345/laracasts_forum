@@ -55,4 +55,17 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase
         $this->app->instance(ExceptionHandler::class, $this->oldExceptionHandler);
         return $this;
     }
+    
+    protected function requestWithUpload($method, $uri, $headers, $file_paths) {
+        $server = $this->transformHeadersToServerVars($headers);
+
+        $files = [];
+        foreach ($file_paths as $name => $f) {
+            $files[$name] = new \Symfony\Component\HttpFoundation\File\UploadedFile($f, basename($f), mime_content_type($f), filesize($f), UPLOAD_ERR_OK, true);
+        }
+
+        $this->call($method, $uri, [], [], $files, $server);
+
+        return $this;
+    }
 }

@@ -50,6 +50,9 @@ Route::delete('/replies/{reply}/favorites', 'FavoriteController@destroy');
 // 用户主页
 Route::get('/profiles/{user}', 'ProfileController@show')->name('profile');
 
+// 用户头像
+Route::post('api/users/{user}/avatar', 'AvatarController@store');
+
 // 通知
 Route::get('/profiles/{userName}/notifications', 'NotificationController@index');
 Route::delete('/profiles/{userName}/notifications/{id}', 'NotificationController@destroy');
