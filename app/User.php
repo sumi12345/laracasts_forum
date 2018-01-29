@@ -36,7 +36,16 @@ class User extends Model implements AuthenticatableContract,
      *
      * @var array
      */
-    protected $hidden = ['password', 'remember_token', 'email'];
+    protected $hidden = ['password', 'remember_token', 'email', 'avatar_path'];
+
+    protected $appends = ['avatar'];
+
+    //----attributes----
+
+    public function getAvatarAttribute()
+    {
+        return asset('avatars/'. ($this->avatar_path ?: 'default.jpg'));
+    }
 
     //----relationships----
 

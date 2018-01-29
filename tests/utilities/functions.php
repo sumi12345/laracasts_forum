@@ -28,7 +28,7 @@ function notMe()
 
 function getImage() {
     $from = '/home/sumi/桌面/785894d3jw1emyqyegyqij20by0bymy1.jpg';
-    $to = 'storage/avatars/default.jpg';
+    $to = 'storage/avatars/example.jpg';
     if (! file_exists($to)) copy($from, $to);
     return $to;
 }

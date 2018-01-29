@@ -30,6 +30,7 @@ const app = new Vue({
     components: {
         'flash': require('./components/Flash.vue'),
         'thread-view': require('./components/ThreadView.vue'),
-        'notifications': require('./components/Notifications.vue')
+        'notifications': require('./components/Notifications.vue'),
+        'avatar': require('./components/Avatar.vue'),
     }
 });

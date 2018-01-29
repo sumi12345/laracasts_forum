@@ -8,6 +8,8 @@ use App\Http\Controllers\Controller;
 
 class AvatarController extends Controller
 {
+    protected $base_path = 'storage/avatars';
+
     public function __construct()
     {
         $this->middleware('auth');
@@ -15,16 +17,16 @@ class AvatarController extends Controller
 
     public function store()
     {
-        //echo 'storing...';
         $this->validate(request(), [
             'avatar' => 'required|image'
         ]);
-        //echo 'validate success!!!';
+
         $ori_path = request()->file('avatar')->getPathname();
-        $file = request()->file('avatar')->move('storage/avatars', sha1_file($ori_path).'.jpg');
-        //echo 'file moved!!!';
+        $new_file_name = sha1_file($ori_path).'.jpg';
+        request()->file('avatar')->move($this->base_path, $new_file_name);
+
         auth()->user()->update([
-            'avatar_path' => $file->getPathname(),
+            'avatar_path' => $new_file_name,
         ]);
     }
 }

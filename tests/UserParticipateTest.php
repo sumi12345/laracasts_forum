@@ -111,7 +111,7 @@ class UserParticipateTest extends TestCase
         $reply = make('App\Reply', [
             'body' => 'Yahoo Customer Suppport'
         ]);
-        $this->signIn($reply->owner);
+        $this->signIn(create('App\User'));
 
         $this->json('post', $reply->thread->path().'/replies', $reply->toArray());
         $this->seeStatusCode(422);

@@ -37,8 +37,8 @@ class ReplyUnitTest extends TestCase
     /** @test */
     public function it_fetchs_mentioned_users_starting_with_given_characters()
     {
-        // create('App\User', ['name' => 'JohnDoe']);
-        // create('App\User', ['name' => 'JaneDoe']);
+        create('App\User', ['name' => 'JohnDoe']);
+        create('App\User', ['name' => 'JaneDoe']);
 
         $this->json('get', '/api/users', ['name' => 'John']);
 
