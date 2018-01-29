@@ -31,6 +31,17 @@
                 reader.onload = e => {
                     this.avatar_src = e.target.result;
                 }
+
+                this.saveAvatar(file);
+            },
+
+            saveAvatar(file) {
+                let data = new FormData();
+
+                data.append('avatar', file);
+
+                axios.post('/api/users/' + this.user.name + '/avatar', data)
+                    .then(() => flash('上传成功'));
             }
         },
 

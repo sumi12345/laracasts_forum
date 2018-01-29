@@ -13665,7 +13665,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
     data: function data() {
         return {
-            avatar_src: '/avatars/default.jpg'
+            avatar_src: this.user.avatar
         };
     },
 
@@ -13683,6 +13683,17 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             reader.onload = function (e) {
                 _this.avatar_src = e.target.result;
             };
+
+            this.saveAvatar(file);
+        },
+        saveAvatar: function saveAvatar(file) {
+            var data = new FormData();
+
+            data.append('avatar', file);
+
+            axios.post('/api/users/' + this.user.name + '/avatar', data).then(function () {
+                return flash('上传成功');
+            });
         }
     },
 
@@ -14159,7 +14170,7 @@ exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(2)();
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 /***/ }),
 /* 44 */

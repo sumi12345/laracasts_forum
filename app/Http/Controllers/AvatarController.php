@@ -8,10 +8,9 @@ use App\Http\Controllers\Controller;
 
 class AvatarController extends Controller
 {
-    protected $base_path = 'storage/avatars';
-
     public function __construct()
     {
+        $this->base_path = env('APP_ENV') === 'testing' ? 'storage/avatars' : 'avatars';
         $this->middleware('auth');
     }
 
