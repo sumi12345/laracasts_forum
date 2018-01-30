@@ -32,3 +32,7 @@ function getImage() {
     if (! file_exists($to)) copy($from, $to);
     return $to;
 }
+
+function dp($x) {
+    (new \Illuminate\Support\Debug\Dumper)->dump($x);
+}

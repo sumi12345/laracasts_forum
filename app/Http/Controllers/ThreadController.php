@@ -42,14 +42,15 @@ class ThreadController extends Controller
         //dd($threads->toSql());
         $threads = $threads->get();
 
-        // 为了测试. 没弄懂 addGlobalScope 的用法, 暂时添加属性.
-        // 5.0 版文档有 global scope 的用法 https://laravel.com/docs/5.0/eloquent#global-scopes
-        if (request()->wantsJson()) {
-            foreach ($threads as $thread) $thread['replies_count'] = $thread->replies_count;
-            return $threads;
-        }
+        // json 返回
+        if (request()->wantsJson()) return $threads;
 
-        return view('threads.index', compact('threads'));
+        // 阅读数最高
+        $trending = array_map(function ($thread) {
+            return json_decode($thread);
+        }, \Redis::zrevrange('trending_threads', 0, 4));
+
+        return view('threads.index', compact('threads', 'trending'));
     }
 
     /**
@@ -108,6 +109,12 @@ class ThreadController extends Controller
         if (auth()->check()) {
             auth()->user()->read($thread);
         }
+
+        // 阅读数 + 1
+        \Redis::zincrby('trending_threads', 1, json_encode([
+            'title' => $thread->title,
+            'path' => $thread->path(),
+        ]));
 
         return view('threads.show', $params);
     }

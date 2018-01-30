@@ -9,6 +9,8 @@ class ThreadFilter
 {
     private $builder;
 
+    private $filters = ['by'];
+
     public function __construct(Request $request)
     {
         $this->request = $request;
@@ -23,9 +25,11 @@ class ThreadFilter
     {
         $this->builder = $builder;
 
-        if ($this->request->by) {
-            return $this->by();
+        foreach ($this->filters as $filter) {
+            $this->builder = $this->$filter();
         }
+
+        return $this->builder;
     }
 
     /**

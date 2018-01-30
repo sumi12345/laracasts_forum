@@ -12,7 +12,9 @@
 
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <h3 class="panel-title">{{ $thread->title }}</h3>
+                    <h3 class="panel-title">
+                        {{ $thread->title }}
+                    </h3>
                 </div>
                 <div class="panel-body">
                     {{ $thread->body }}
@@ -30,7 +32,9 @@
                 <div class="panel-heading">About</div>
                 <div class="panel-body">
                     <p>
-                        由 <a href="{{ route('profile', $thread->creator->name) }}">{{ $thread->creator->name }}</a>
+                        <a href="{{ route('profile', $thread->creator) }}">
+                            <img src="{{ $thread->creator->avatar }}" height="25"> {{ $thread->creator->name }}
+                        </a>
                         在 {{ $thread->created_at }} 发布,
                         有 <span v-text="repliesCount"></span> 条评论.
                     </p>

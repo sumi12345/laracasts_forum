@@ -2,11 +2,11 @@
 
 @section('content')
     <div class="page-header">
+        <avatar :user="{{ $profileUser->toJson() }}"></avatar>
         <h1>
             {{ $profileUser->name }}
             <small>since {{ $profileUser->created_at->diffForHumans() }} </small>
         </h1>
-        <avatar :user="{{ $profileUser->toJson() }}"></avatar>
     </div>
 
     <div class="row">

@@ -9,43 +9,26 @@ class ThreadReadTest extends TestCase
     // 在测试开始时迁移, 结束后销毁 (不起作用 改为写在 setup 和 teardown 里 或 方法里)
     //use DatabaseMigrations;
 
-    protected $thread;
-
     public function setUp()
     {
         parent::setUp();
 
         // 影响下一个 Test 文件, 先注释
         // $this->artisan('migrate');
-
-        $this->thread = factory('App\Thread')->create();
     }
 
     /** @test */
     public function a_user_can_browse_threads()
     {
         // 全部帖子页面可以看到最新帖子的标题
-        $this->visit('/threads')->see($this->thread->title);
-    }
-
-    /** @test */
-    public function a_user_can_browse_a_single_thread()
-    {
-        // 帖子详情页面可以看到帖子标题
-        $this->visit($this->thread->path())->see($this->thread->title);
-    }
-
-    /** @test */
-    public function a_user_can_read_replies_that_are_associated_with_a_thread()
-    {
-        // 帖子详情页面可以看到最新评论内容
-        $reply = factory('App\Reply')->create(['thread_id' => $this->thread->id]);
-        $this->visit($this->thread->path())->see($reply->body);
+        $thread = create('App\Thread');
+        $this->visit('/threads')->see($thread->title);
     }
 
     /** @test */
     public function a_user_can_filter_threads_according_to_a_channel()
     {
+        // 根据频道筛选帖子
         $channel = create('App\Channel');
         $threadInChannel = create('App\Thread', ['channel_id' => $channel->id]);
         $threadNotInChannel = create('App\Thread', ['channel_id' => create('App\Channel')->id]);
@@ -58,6 +41,7 @@ class ThreadReadTest extends TestCase
     /** @test */
     public function a_user_can_filter_threads_by_username()
     {
+        // 根据用户筛选帖子
         $user = create('App\User');
         $this->signIn($user);
 
@@ -72,19 +56,9 @@ class ThreadReadTest extends TestCase
     /** @test */
     public function a_user_can_filter_threads_by_popularity()
     {
-        $threadWithTwoReplies = create('App\Thread');
-        create('App\Reply', ['thread_id' => $threadWithTwoReplies->id], 2);
-
-        $threadWithThreeReplies = create('App\Thread');
-        create('App\Reply', ['thread_id' => $threadWithTwoReplies->id], 3);
-
-        $threadWithNoReplies = $this->thread;
-
-        $response = $this->get('threads?popular=1', ['Accept' =>  'application/json'])->response;
-        $response = json_decode($response->getContent());
-
-        // 失败 因为没弄清怎么构建 builder 让 threads 按 replies_count 排序
-        //$this->assertEquals([3, 2, 0], array_column($response, 'replies_count'));
+        // 根据评论数给帖子排序 failed
+        $this->get('threads?popular=1', ['Accept' =>  'application/json']);
+        // dp(json_decode($this->response->getContent()));
     }
 
     public function tearDown()

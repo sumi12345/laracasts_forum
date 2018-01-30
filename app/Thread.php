@@ -15,13 +15,10 @@ class Thread extends Model
 
     protected $with = ['creator', 'channel'];
 
-    protected $appends = ['isSubscribedTo'];
+    protected $appends = ['isSubscribedTo', 'replies_count'];
 
     protected static function boot() {
         parent::boot();
-
-        // 因为 5.1 版中没有 withCount 方法, repliescountscope 没有实现
-        //static::addGlobalScope(new RepliesCountScope);
 
         static::deleting(function ($thread) {
             $thread->replies->each(function($reply) { $reply->delete(); });
