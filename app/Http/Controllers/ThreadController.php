@@ -46,9 +46,7 @@ class ThreadController extends Controller
         if (request()->wantsJson()) return $threads;
 
         // 阅读数最高
-        $trending = array_map(function ($thread) {
-            return json_decode($thread);
-        }, \Redis::zrevrange('trending_threads', 0, 4));
+        $trending = \App\Trending::get();
 
         return view('threads.index', compact('threads', 'trending'));
     }
@@ -111,9 +109,9 @@ class ThreadController extends Controller
         }
 
         // 阅读数 + 1
-        \Redis::zincrby('trending_threads', 1, json_encode([
-            'title' => $thread->title,
+        \App\Trending::push(json_encode([
             'path' => $thread->path(),
+            'title' => $thread->title,
         ]));
 
         return view('threads.show', $params);

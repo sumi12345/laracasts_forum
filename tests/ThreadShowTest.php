@@ -29,12 +29,12 @@ class ThreadShowTest extends TestCase
     public function it_increments_a_threads_score_each_time_it_is_read()
     {
         // 访问帖子详情页面, 点击数 + 1
-        \Redis::del('trending_threads');
+        \App\Trending::reset();
 
         $thread = create('App\Thread');
 
         $this->call('GET', $thread->path());
 
-        $this->assertCount(1, \Redis::zrevrange('trending_threads', 0, -1));
+        $this->assertCount(1, \App\Trending::get());
     }
 }
