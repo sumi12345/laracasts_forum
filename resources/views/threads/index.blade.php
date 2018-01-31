@@ -21,6 +21,9 @@
                 <div class="panel-body">
                     {{ $thread->body }}
                 </div>
+                <div class="panel-footer small">
+                    {{ $thread->visits }} 阅读
+                </div>
             </div>
         @endforeach
     </div>

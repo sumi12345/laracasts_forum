@@ -114,6 +114,9 @@ class ThreadController extends Controller
             'title' => $thread->title,
         ]));
 
+        // 阅读数 + 1
+        $thread->increment('visits');
+
         return view('threads.show', $params);
     }
 
