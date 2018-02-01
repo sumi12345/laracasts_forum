@@ -18,6 +18,15 @@ class ThreadCreateTest extends TestCase
     }
 
     /** @test */
+    public function users_have_not_confirmed_eamil_can_not_create_threads()
+    {
+        $this->publishThread();
+
+        $this->assertRedirectedTo('/threads');
+        $this->assertSessionHas('alert_flash', '验证邮箱');
+    }
+
+    /** @test */
     public function an_authenticated_user_can_create_threads()
     {
         // 用户登录
