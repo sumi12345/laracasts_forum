@@ -11,11 +11,13 @@ class ConfirmationController extends Controller
 {
     public function index()
     {
-        User::where('confirmation_token', request('token'))
-            ->firstOrFail()
-            ->confirm();
+        $user = User::where('confirmation_token', request('token'))->first();
 
-        return redirect('/threads')
-            ->with('alert_flash', '邮箱验证成功!');
+        if (empty($user)) {
+            return redirect('/threads')->with('alert_flash', '地址失效');
+        }
+
+        $user->confirm();
+        return redirect('/threads')->with('alert_flash', '验证成功!');
     }
 }

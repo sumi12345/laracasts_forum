@@ -20,7 +20,11 @@ class ThreadCreateTest extends TestCase
     /** @test */
     public function users_have_not_confirmed_eamil_can_not_create_threads()
     {
-        $this->publishThread();
+        $user = create('App\User', ['confirmed' => false]);
+        $this->signIn($user);
+
+        $thread = make('App\Thread');
+        $this->post('/threads', $thread->toArray());
 
         $this->assertRedirectedTo('/threads');
         $this->assertSessionHas('alert_flash', '验证邮箱');
@@ -30,7 +34,7 @@ class ThreadCreateTest extends TestCase
     public function an_authenticated_user_can_create_threads()
     {
         // 用户登录
-        $this->signIn();
+        $this->signIn(create('App\User'));
 
         // 用户登录时发表帖子
         $thread = make('App\Thread', ['channel_id' => 2]);

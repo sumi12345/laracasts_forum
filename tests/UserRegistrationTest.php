@@ -19,7 +19,7 @@ class UserRegistrationTest extends TestCase
         // 注册完成后发送验证邮件
         // 这里没法测试具体参数
         // 相关文章: https://adamwathan.me/2016/01/25/writing-your-own-test-doubles/
-        \Mail::shouldReceive('send')->once();
+        \Mail::shouldReceive('queue')->once();
 
         $user = create('App\User');
 
@@ -44,12 +44,12 @@ class UserRegistrationTest extends TestCase
         $user = \App\User::orderBy('id', 'desc')->first();
 
         $this->assertFalse($user->confirmed);
-        $this->assertNotEquals('', $user->confirmation_token);
+        $this->assertNotNull($user->confirmation_token);
 
         // 访问确认邮件链接, confirmed 为 true, confirmation_token 为空
         $this->get('/auth/register/confirm?token=' . $user->confirmation_token);
 
         $this->assertTrue($user->fresh()->confirmed);
-        $this->assertSame('', $user->fresh()->confirmation_token);
+        $this->assertNull($user->fresh()->confirmation_token);
     }
 }
