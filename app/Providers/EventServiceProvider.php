@@ -16,6 +16,10 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\NewReply' => [
             'App\Listeners\NotifyMentionedUsers',
         ],
+
+        'App\Events\Registered' => [
+            'App\Listeners\SendConfirmationEmail',
+        ]
     ];
 
     /**
