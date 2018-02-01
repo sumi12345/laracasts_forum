@@ -24,6 +24,7 @@ Route::get('auth/logout', 'Auth\AuthController@getLogout');
 // 注册
 Route::get('auth/register', 'Auth\AuthController@getRegister');
 Route::post('auth/register', 'Auth\AuthController@postRegister');
+Route::get('auth/register/confirm', 'Auth\ConfirmationController@index');
 
 // 帖子
 Route::get('/threads', 'ThreadController@index');

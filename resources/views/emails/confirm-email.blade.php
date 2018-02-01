@@ -15,7 +15,7 @@
     <p><h2>{{ $user->name }}, Please Confirm you email</h2></p>
 
     <p>
-        <a href="localhost:2221/confirm/{{ $user->confirm_token }}">
+        <a href="localhost:2221/auth/register/confirm?token={{ $user->confirmation_token }}">
             <button class="btn btn-primary">现在就去</button>
         </a>
     </p>

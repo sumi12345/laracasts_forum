@@ -40,6 +40,10 @@ class User extends Model implements AuthenticatableContract,
 
     protected $appends = ['avatar'];
 
+    protected $casts = [
+        'confirmed' => 'boolean',
+    ];
+
     //----attributes----
 
     public function getAvatarAttribute()
@@ -70,5 +74,13 @@ class User extends Model implements AuthenticatableContract,
     {
         $key = 'users.'.auth()->id().'.visits.'.$thread->id;
         \Cache::forever($key, \Carbon\Carbon::now());
+    }
+
+    public function confirm()
+    {
+        $this->confirmed = true;
+        $this->confirmation_token = '';
+
+        $this->save();
     }
 }
