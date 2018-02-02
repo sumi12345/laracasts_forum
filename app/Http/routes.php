@@ -38,6 +38,7 @@ Route::delete('/threads/{channel}/{thread}', 'ThreadController@destroy');
 Route::post('/threads/{channel}/{thread}/replies', 'ReplyController@store');
 Route::patch('/replies/{reply}', 'ReplyController@update');
 Route::delete('/replies/{reply}', 'ReplyController@destroy');
+Route::post('/replies/{reply}/best', 'ReplyBestController@store')->name('reply.best');
 
 // 订阅
 Route::post('/threads/{channel}/{thread}/subscriptions', 'ThreadSubscriptionController@store');

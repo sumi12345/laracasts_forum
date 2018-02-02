@@ -18,9 +18,9 @@ function getLast($class)
 
 function notMe()
 {
-    $me = auth()->check() ? auth()->id() : getLast('App\User')->id;
-    $notMe = \App\User::orderBy('id', 'desc')->where('id', '!=', $me)->first();
-    if (! empty($notMe)) return $notMe;
+    $users = \App\User::orderBy('id', 'desc')->take(2)->get();
+    if (isset($users[1]) && (auth()->guest() || auth()->id() != $users[1]->id)) return $users[1];
+    if (isset($users[0]) && auth()->check() && auth()->id() != $users[0]->id) return $users[0];
 
     $newUser = create('App\User', [], 2);
     return $newUser[0];
