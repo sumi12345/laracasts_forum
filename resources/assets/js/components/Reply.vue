@@ -16,7 +16,11 @@
                     <favorite :reply="data"></favorite>
                 </div>
 
-                <button class="btn ml-a" :class="isBest ? 'btn-success' : 'btn-default'" @click="markBestReply">最佳</button>
+                <button v-if="authorize('markBestReply', reply)"
+                        class="btn ml-a" :class="isBest ? 'btn-success' : 'btn-default'"
+                        :disabled="isBest"
+                        @click="markBestReply">最佳
+                </button>
 
             </div>
 
@@ -36,7 +40,7 @@
             </div>
         </div>
 
-        <p><hr></p>
+        <hr>
     </div>
 </template>
 
@@ -56,7 +60,7 @@
                 editing: false,
                 id: this.data.id,
                 body: this.data.body,
-                isBest: false,
+                isBest: this.data.isBest,
             }
         },
 
@@ -87,8 +91,16 @@
             },
 
             markBestReply() {
-                this.isBest = true;
+                axios.post('/replies/' + this.reply.id + '/best');
+
+                window.events.$emit('best-reply-selected', this.reply.id);
             }
+        },
+
+        created() {
+            window.events.$on('best-reply-selected', id => {
+                this.isBest = (id === this.id);
+            });
         }
     }
 </script>

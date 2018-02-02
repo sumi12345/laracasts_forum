@@ -39,15 +39,17 @@
                         有 <span v-text="repliesCount"></span> 条评论.
                     </p>
 
-                    @can ('update', $thread)
-                    <form action="{{ $thread->path() }}" method="POST">
-                        {{ csrf_field() }}
-                        {{ method_field('DELETE') }}
-                        <button type="submit" class="btn btn-default">删除</button>
-                    </form>
-                    @endcan
+                    <div class="level">
+                        @can ('update', $thread)
+                            <form action="{{ $thread->path() }}" method="POST">
+                                {{ csrf_field() }}
+                                {{ method_field('DELETE') }}
+                                <button type="submit" class="btn btn-default">删除</button>
+                            </form>
+                        @endcan
 
-                    <subscribe :active="{{ $thread->isSubscribedTo ? 'true' : 'false' }}"></subscribe>
+                        <subscribe :active="{{ $thread->isSubscribedTo ? 'true' : 'false' }}"></subscribe>
+                    </div>
                 </div>
             </div>
 

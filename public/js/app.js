@@ -14038,6 +14038,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
 
 
 
@@ -14054,7 +14058,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             editing: false,
             id: this.data.id,
             body: this.data.body,
-            isBest: false
+            isBest: this.data.isBest
         };
     },
 
@@ -14085,8 +14089,18 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.$emit('deleted');
         },
         markBestReply: function markBestReply() {
-            this.isBest = true;
+            axios.post('/replies/' + this.reply.id + '/best');
+
+            window.events.$emit('best-reply-selected', this.reply.id);
         }
+    },
+
+    created: function created() {
+        var _this2 = this;
+
+        window.events.$on('best-reply-selected', function (id) {
+            _this2.isBest = id === _this2.id;
+        });
     }
 });
 
@@ -14169,6 +14183,9 @@ var user = window.App.user;
 module.exports = {
     updateReply: function updateReply(reply) {
         return reply.user_id === user.id;
+    },
+    markBestReply: function markBestReply(reply) {
+        return reply.thread.user_id === user.id;
     }
 };
 
@@ -15322,13 +15339,16 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "reply": _vm.data
     }
-  })], 1) : _vm._e(), _vm._v(" "), _c('button', {
+  })], 1) : _vm._e(), _vm._v(" "), (_vm.authorize('markBestReply', _vm.reply)) ? _c('button', {
     staticClass: "btn ml-a",
     class: _vm.isBest ? 'btn-success' : 'btn-default',
+    attrs: {
+      "disabled": _vm.isBest
+    },
     on: {
       "click": _vm.markBestReply
     }
-  }, [_vm._v("最佳")])]), _vm._v(" "), (_vm.editing) ? _c('div', [_c('div', {
+  }, [_vm._v("最佳\n            ")]) : _vm._e()]), _vm._v(" "), (_vm.editing) ? _c('div', [_c('div', {
     staticClass: "form-group"
   }, [_c('textarea', {
     directives: [{
@@ -15380,7 +15400,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     on: {
       "click": _vm.destroy
     }
-  }, [_vm._v("删除")])]) : _vm._e()]), _vm._v(" "), _c('p'), _c('hr'), _c('p')])
+  }, [_vm._v("删除")])]) : _vm._e()]), _vm._v(" "), _c('hr')])
 },staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {
