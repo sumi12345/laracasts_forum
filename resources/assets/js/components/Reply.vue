@@ -30,7 +30,7 @@
             </div>
             <div v-else v-html="body"></div>
 
-            <div v-if="canUpdate" class="mt-1">
+            <div v-if="authorize('updateReply', reply)" class="mt-1">
                 <button class="btn btn-default" @click="editing = true">编辑</button>
                 <button class="btn btn-danger" @click="destroy">删除</button>
             </div>
@@ -52,6 +52,7 @@
 
         data() {
             return {
+                reply: this.data,
                 editing: false,
                 id: this.data.id,
                 body: this.data.body,
@@ -67,14 +68,6 @@
             profile_url() {
                 return '/profiles/' + this.data.owner.name;
             },
-
-            signedIn() {
-                return window.App.signedIn;
-            },
-
-            canUpdate() {
-                return this.authorize(user => this.data.user_id == user.id);
-            }
         },
 
         methods: {

@@ -1,6 +1,3 @@
-// Vue
-window.Vue = require('vue');
-
 // axios
 window.axios = require('axios');
 
@@ -10,13 +7,21 @@ window.axios.defaults.headers.post = {
     'X-Requested-With': 'XMLHttpRequest'
 };
 
-// 全局变量
+// Vue
+window.Vue = require('vue');
+
+// Vue events
 window.events = new Vue();
 
-window.Vue.prototype.authorize = function (handler) {
-    let user = window.App.user;
+// Vue signedIn
+window.Vue.prototype.signedIn = window.App.signedIn;
 
-    return user ? handler(user) : false;
+// Vue authorizations
+let authorizations = require('./authorizations.js');
+
+window.Vue.prototype.authorize = function (ability, obj) {
+    if (! window.App.signedIn) return false;
+    return authorizations[ability](obj);
 }
 
 // 全局方法
