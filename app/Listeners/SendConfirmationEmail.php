@@ -28,7 +28,7 @@ class SendConfirmationEmail
     {
         $user = $event->user;
 
-        \Mail::queue(
+        \Mail::send(
             'emails.confirm-email',
             ['user' => $user],
             function ($m) use ($user) {

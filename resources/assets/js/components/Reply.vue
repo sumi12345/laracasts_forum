@@ -2,7 +2,7 @@
     <div class="media" :id="reply_id">
         <div class="media-left">
             <a href="#">
-                <img class="media-object" src="" alt="">
+                <img class="media-object" :src="data.owner.avatar" :alt="data.owner.name" style="width:32px">
             </a>
         </div>
         <div class="media-body">
@@ -15,6 +15,8 @@
                 <div v-if="signedIn">
                     <favorite :reply="data"></favorite>
                 </div>
+
+                <button class="btn ml-a" :class="isBest ? 'btn-success' : 'btn-default'" @click="markBestReply">最佳</button>
 
             </div>
 
@@ -29,8 +31,8 @@
             <div v-else v-html="body"></div>
 
             <div v-if="canUpdate" class="mt-1">
-                <button type="button" class="btn btn-default" @click="editing = true">编辑</button>
-                <button type="submit" class="btn btn-danger" @click="destroy">删除</button>
+                <button class="btn btn-default" @click="editing = true">编辑</button>
+                <button class="btn btn-danger" @click="destroy">删除</button>
             </div>
         </div>
 
@@ -52,7 +54,8 @@
             return {
                 editing: false,
                 id: this.data.id,
-                body: this.data.body
+                body: this.data.body,
+                isBest: false,
             }
         },
 
@@ -88,6 +91,10 @@
                 axios.delete('/replies/' + this.data.id);
 
                 this.$emit('deleted');
+            },
+
+            markBestReply() {
+                this.isBest = true;
             }
         }
     }

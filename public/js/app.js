@@ -14031,6 +14031,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
 
 
@@ -14045,7 +14047,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         return {
             editing: false,
             id: this.data.id,
-            body: this.data.body
+            body: this.data.body,
+            isBest: false
         };
     },
 
@@ -14084,6 +14087,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             axios.delete('/replies/' + this.data.id);
 
             this.$emit('deleted');
+        },
+        markBestReply: function markBestReply() {
+            this.isBest = true;
         }
     }
 });
@@ -15276,7 +15282,22 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "id": _vm.reply_id
     }
-  }, [_vm._m(0), _vm._v(" "), _c('div', {
+  }, [_c('div', {
+    staticClass: "media-left"
+  }, [_c('a', {
+    attrs: {
+      "href": "#"
+    }
+  }, [_c('img', {
+    staticClass: "media-object",
+    staticStyle: {
+      "width": "32px"
+    },
+    attrs: {
+      "src": _vm.data.owner.avatar,
+      "alt": _vm.data.owner.name
+    }
+  })])]), _vm._v(" "), _c('div', {
     staticClass: "media-body"
   }, [_c('div', {
     staticClass: "media-heading level"
@@ -15293,7 +15314,13 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "reply": _vm.data
     }
-  })], 1) : _vm._e()]), _vm._v(" "), (_vm.editing) ? _c('div', [_c('div', {
+  })], 1) : _vm._e(), _vm._v(" "), _c('button', {
+    staticClass: "btn ml-a",
+    class: _vm.isBest ? 'btn-success' : 'btn-default',
+    on: {
+      "click": _vm.markBestReply
+    }
+  }, [_vm._v("最佳")])]), _vm._v(" "), (_vm.editing) ? _c('div', [_c('div', {
     staticClass: "form-group"
   }, [_c('textarea', {
     directives: [{
@@ -15335,9 +15362,6 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "mt-1"
   }, [_c('button', {
     staticClass: "btn btn-default",
-    attrs: {
-      "type": "button"
-    },
     on: {
       "click": function($event) {
         _vm.editing = true
@@ -15345,28 +15369,11 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_vm._v("编辑")]), _vm._v(" "), _c('button', {
     staticClass: "btn btn-danger",
-    attrs: {
-      "type": "submit"
-    },
     on: {
       "click": _vm.destroy
     }
   }, [_vm._v("删除")])]) : _vm._e()]), _vm._v(" "), _c('p'), _c('hr'), _c('p')])
-},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "media-left"
-  }, [_c('a', {
-    attrs: {
-      "href": "#"
-    }
-  }, [_c('img', {
-    staticClass: "media-object",
-    attrs: {
-      "src": "",
-      "alt": ""
-    }
-  })])])
-}]}
+},staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {
   module.hot.accept()

@@ -19,7 +19,7 @@ class UserRegistrationTest extends TestCase
         // 注册完成后发送验证邮件
         // 这里没法测试具体参数
         // 相关文章: https://adamwathan.me/2016/01/25/writing-your-own-test-doubles/
-        \Mail::shouldReceive('queue')->once();
+        \Mail::shouldReceive('send')->once();
 
         $user = create('App\User');
 
