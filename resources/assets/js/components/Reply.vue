@@ -2,21 +2,21 @@
     <div class="media" :id="reply_id">
         <div class="media-left">
             <a href="#">
-                <img class="media-object" :src="data.owner.avatar" :alt="data.owner.name" style="width:32px">
+                <img class="media-object" :src="reply.owner.avatar" :alt="reply.owner.name" style="width:32px">
             </a>
         </div>
         <div class="media-body">
             <div class="media-heading level">
                 <h4 class="flex">
-                    <a :href="profile_url" v-text="data.owner.name"></a>
-                    <small>said {{ data.created_at }}</small>
+                    <a :href="profile_url" v-text="reply.owner.name"></a>
+                    <small>said {{ reply.created_at }}</small>
                 </h4>
 
                 <div v-if="signedIn">
-                    <favorite :reply="data"></favorite>
+                    <favorite :reply="reply"></favorite>
                 </div>
 
-                <button v-if="authorize('markBestReply', reply)"
+                <button v-if="authorize('updateThread', reply.thread)"
                         class="btn ml-a" :class="isBest ? 'btn-success' : 'btn-default'"
                         :disabled="isBest"
                         @click="markBestReply">最佳
@@ -48,7 +48,7 @@
     import Favorite from './Favorite.vue';
 
     export default {
-        props: ['data'],
+        props: ['reply'],
 
         components: {
             favorite: Favorite
@@ -56,27 +56,26 @@
 
         data() {
             return {
-                reply: this.data,
                 editing: false,
-                id: this.data.id,
-                body: this.data.body,
-                isBest: this.data.isBest,
+                id: this.reply.id,
+                body: this.reply.body,
+                isBest: this.reply.isBest,
             }
         },
 
         computed: {
             reply_id() {
-                return 'reply-' + this.data.id;
+                return 'reply-' + this.id;
             },
 
             profile_url() {
-                return '/profiles/' + this.data.owner.name;
+                return '/profiles/' + this.reply.owner.name;
             },
         },
 
         methods: {
             update() {
-                axios.patch('/replies/' + this.data.id, {body: this.body} )
+                axios.patch('/replies/' + this.id, {body: this.body} )
                     .then(() => {
                         this.editing = false;
                         flash('Updated');
@@ -85,15 +84,15 @@
             },
 
             destroy() {
-                axios.delete('/replies/' + this.data.id);
+                axios.delete('/replies/' + this.id);
 
                 this.$emit('deleted');
             },
 
             markBestReply() {
-                axios.post('/replies/' + this.reply.id + '/best');
+                axios.post('/replies/' + this.id + '/best');
 
-                window.events.$emit('best-reply-selected', this.reply.id);
+                window.events.$emit('best-reply-selected', this.id);
             }
         },
 

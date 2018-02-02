@@ -14046,7 +14046,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    props: ['data'],
+    props: ['reply'],
 
     components: {
         favorite: __WEBPACK_IMPORTED_MODULE_0__Favorite_vue___default.a
@@ -14054,21 +14054,20 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
     data: function data() {
         return {
-            reply: this.data,
             editing: false,
-            id: this.data.id,
-            body: this.data.body,
-            isBest: this.data.isBest
+            id: this.reply.id,
+            body: this.reply.body,
+            isBest: this.reply.isBest
         };
     },
 
 
     computed: {
         reply_id: function reply_id() {
-            return 'reply-' + this.data.id;
+            return 'reply-' + this.id;
         },
         profile_url: function profile_url() {
-            return '/profiles/' + this.data.owner.name;
+            return '/profiles/' + this.reply.owner.name;
         }
     },
 
@@ -14076,7 +14075,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         update: function update() {
             var _this = this;
 
-            axios.patch('/replies/' + this.data.id, { body: this.body }).then(function () {
+            axios.patch('/replies/' + this.id, { body: this.body }).then(function () {
                 _this.editing = false;
                 flash('Updated');
             }).catch(function (error) {
@@ -14084,14 +14083,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             });
         },
         destroy: function destroy() {
-            axios.delete('/replies/' + this.data.id);
+            axios.delete('/replies/' + this.id);
 
             this.$emit('deleted');
         },
         markBestReply: function markBestReply() {
-            axios.post('/replies/' + this.reply.id + '/best');
+            axios.post('/replies/' + this.id + '/best');
 
-            window.events.$emit('best-reply-selected', this.reply.id);
+            window.events.$emit('best-reply-selected', this.id);
         }
     },
 
@@ -14184,8 +14183,8 @@ module.exports = {
     updateReply: function updateReply(reply) {
         return reply.user_id === user.id;
     },
-    markBestReply: function markBestReply(reply) {
-        return reply.thread.user_id === user.id;
+    updateThread: function updateThread(thread) {
+        return thread.user_id === user.id;
     }
 };
 
@@ -15272,7 +15271,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       key: reply.id
     }, [_c('reply', {
       attrs: {
-        "data": reply
+        "reply": reply
       },
       on: {
         "deleted": function($event) {
@@ -15319,8 +15318,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "width": "32px"
     },
     attrs: {
-      "src": _vm.data.owner.avatar,
-      "alt": _vm.data.owner.name
+      "src": _vm.reply.owner.avatar,
+      "alt": _vm.reply.owner.name
     }
   })])]), _vm._v(" "), _c('div', {
     staticClass: "media-body"
@@ -15333,13 +15332,13 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "href": _vm.profile_url
     },
     domProps: {
-      "textContent": _vm._s(_vm.data.owner.name)
+      "textContent": _vm._s(_vm.reply.owner.name)
     }
-  }), _vm._v(" "), _c('small', [_vm._v("said " + _vm._s(_vm.data.created_at))])]), _vm._v(" "), (_vm.signedIn) ? _c('div', [_c('favorite', {
+  }), _vm._v(" "), _c('small', [_vm._v("said " + _vm._s(_vm.reply.created_at))])]), _vm._v(" "), (_vm.signedIn) ? _c('div', [_c('favorite', {
     attrs: {
-      "reply": _vm.data
+      "reply": _vm.reply
     }
-  })], 1) : _vm._e(), _vm._v(" "), (_vm.authorize('markBestReply', _vm.reply)) ? _c('button', {
+  })], 1) : _vm._e(), _vm._v(" "), (_vm.authorize('updateThread', _vm.reply.thread)) ? _c('button', {
     staticClass: "btn ml-a",
     class: _vm.isBest ? 'btn-success' : 'btn-default',
     attrs: {

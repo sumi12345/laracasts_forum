@@ -5,7 +5,7 @@ module.exports = {
         return reply.user_id === user.id;
     },
 
-    markBestReply (reply) {
-        return reply.thread.user_id === user.id;
+    updateThread (thread) {
+        return thread.user_id === user.id;
     }
 }
