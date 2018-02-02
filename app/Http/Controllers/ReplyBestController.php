@@ -16,6 +16,6 @@ class ReplyBestController extends Controller
     {
         $this->authorize('update', $reply->thread);
 
-        $reply->thread->update(['best_reply_id' => $reply->id]);
+        $reply->markBestReply();
     }
 }

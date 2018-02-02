@@ -15,7 +15,19 @@ class Reply extends Model
 
     protected $appends = ['favoritesCount', 'isFavorited', 'isBest'];
 
-    // relationship
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::deleted(function ($reply) {
+            if ($reply->isBest) {
+                $reply->thread->update(['best_reply_id' => null]);
+            }
+        });
+    }
+
+    //----relationships----
+
     public function owner()
     {
         return $this->belongsTo(User::class, 'user_id');
@@ -26,12 +38,12 @@ class Reply extends Model
         return $this->belongsTo(Thread::class);
     }
 
+    //----attributes----
+
     public function path()
     {
         return $this->thread->path().'#reply-'.$this->id;
     }
-
-    //----attributes----
 
     public function wasJustPublished()
     {
@@ -46,5 +58,12 @@ class Reply extends Model
     public function getIsBestAttribute()
     {
         return $this->isBest();
+    }
+
+    //----actions----
+
+    public function markBestReply()
+    {
+        $this->thread->update(['best_reply_id' => $this->id]);
     }
 }
