@@ -48,7 +48,9 @@
                             </form>
                         @endcan
 
-                        <subscribe :active="{{ $thread->isSubscribedTo ? 'true' : 'false' }}"></subscribe>
+                        <subscribe v-if="signedIn" :active="{{ $thread->isSubscribedTo ? 'true' : 'false' }}"></subscribe>
+
+                        <button v-if="authorize('isAdmin')" @click="locked = true" class="btn btn-default">禁言</button>
                     </div>
                 </div>
             </div>

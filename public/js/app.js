@@ -14168,6 +14168,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
     data: function data() {
         return {
+            locked: false,
             repliesCount: this.initialRepliesCount
         };
     }
@@ -14185,6 +14186,9 @@ module.exports = {
     },
     updateThread: function updateThread(thread) {
         return thread.user_id === user.id;
+    },
+    isAdmin: function isAdmin() {
+        return ['JohnDoe'].includes(user.name);
     }
 };
 

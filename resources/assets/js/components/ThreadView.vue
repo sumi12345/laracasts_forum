@@ -12,6 +12,7 @@
 
         data() {
             return {
+                locked: false,
                 repliesCount: this.initialRepliesCount
             }
         }

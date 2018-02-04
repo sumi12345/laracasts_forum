@@ -7,5 +7,9 @@ module.exports = {
 
     updateThread (thread) {
         return thread.user_id === user.id;
+    },
+
+    isAdmin () {
+        return ['JohnDoe'].includes(user.name);
     }
 }
