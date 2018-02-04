@@ -14160,7 +14160,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    props: ['dataRepliesCount', 'dataLocked'],
+    props: ['thread'],
 
     components: {
         subscribe: __WEBPACK_IMPORTED_MODULE_1__Subscribe_vue___default.a,
@@ -14169,11 +14169,18 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
     data: function data() {
         return {
-            // 如何将 locked 状态传给 ThreadView->Replies->NewReply:
-            // 1. pass down property; 2. event; 3. shared state; 4. vuex; 5. read $parent.locked;
-            locked: this.dataLocked,
-            repliesCount: this.dataRepliesCount
+            locked: this.thread.locked,
+            repliesCount: this.thread.replies_count
         };
+    },
+
+
+    methods: {
+        toggleLock: function toggleLock() {
+            this.locked = !this.locked;
+
+            var endpoint = '/threads/' + this.thread.channel.slug + '/' + this.thread.id + '/lock';
+        }
     }
 });
 
