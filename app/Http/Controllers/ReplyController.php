@@ -35,6 +35,11 @@ class ReplyController extends Controller
         // 返回 403, forbidden
         // 403 提示太笼统, 可以自定义 ThrottleException, 并在 Handler 中处理
 
+        // 如果帖子被锁定则禁止回复
+        if ($thread->locked) {
+            return response('Thread is locked', 422);
+        }
+
         // 只通过 json 访问, 直接返回 json
         return $thread->addReply([
             'body' => request('body'),

@@ -11,20 +11,59 @@ class ThreadUnitTest extends TestCase
     {
         parent::setUp();
 
-        $this->thread = factory('App\Thread')->create();
+        $this->thread = create('App\Thread');
     }
 
     /** @test */
     public function a_thread_can_add_a_reply()
     {
-        // 向帖子添加一条回复
         $this->thread->addReply([
             'body' => 'Foobar',
             'user_id' => 1
         ]);
 
-        // 帖子应该有一条回复
         $this->assertCount(1, $this->thread->replies);
+    }
+
+    /** @test */
+    public function a_thread_belongs_to_a_channel() {
+        $this->assertInstanceOf('App\Channel', $this->thread->channel);
+    }
+
+    /** @test */
+    public function a_thread_can_have_a_string_path()
+    {
+        $this->assertEquals(
+            "/threads/{$this->thread->channel->slug}/{$this->thread->id}",
+            $this->thread->path()
+        );
+    }
+
+    /** @test */
+    public function a_thread_can_be_subscribed_to() {
+        $subscription = $this->thread->subscribe($userId = 1);
+
+        $this->assertEquals(1, $subscription->user_id);
+    }
+
+    /** @test */
+    public function a_thread_can_be_unsubscribed_from() {
+        $subscription = $this->thread->subscribe($userId = 1);
+
+        $this->thread->unsubscribe($userId);
+
+        $this->notSeeInDatabase('thread_subscriptions', ['id' => $subscription->id]);
+    }
+
+    /** @test */
+    public function it_knows_if_the_authenticated_user_is_subscribed_to_it() {
+        $this->signIn();
+
+        $this->assertFalse($this->thread->isSubscribedTo);
+
+        $this->thread->subscribe();
+
+        $this->assertTrue($this->thread->fresh()->isSubscribedTo);
     }
 
     /** @test */
@@ -34,8 +73,8 @@ class ThreadUnitTest extends TestCase
         Notification::shouldReceive('send')->once();
 
         $this->signIn();
-
         $this->thread->subscribe();
+
         $this->thread->addReply([
             'user_id' => create('App\User')->id, // not the signed in one
             'body' => 'a_thread_notifies_all_subscribers_when_a_reply_is_added'
@@ -43,45 +82,8 @@ class ThreadUnitTest extends TestCase
     }
 
     /** @test */
-    public function a_thread_belongs_to_a_channel() {
-        $thread = make('App\Thread');
-        $this->assertInstanceOf('App\Channel', $thread->channel);
-    }
-
-    /** @test */
-    public function a_thread_can_have_a_string_path()
+    public function a_thread_may_be_locked()
     {
-        $thread = create('App\Thread');
-        $this->assertEquals("/threads/{$thread->channel->slug}/{$thread->id}", $thread->path());
-    }
-
-    /** @test */
-    public function a_thread_can_be_subscribed_to() {
-        $thread = create('App\Thread');
-
-        $subscription = $thread->subscribe($userId = 1);
-
-        $this->assertEquals(1, $subscription->user_id);
-    }
-
-    /** @test */
-    public function a_thread_can_be_unsubscribed_from() {
-        $thread = create('App\Thread');
-        $subscription = $thread->subscribe($userId = 1);
-
-        $thread->unsubscribe($userId);
-
-        $this->notSeeInDatabase('thread_subscriptions', ['id' => $subscription->id]);
-    }
-
-    /** @test */
-    public function it_knows_if_the_authenticated_user_is_subscribed_to_it() {
-        $thread = create('App\Thread');
-        $this->signIn();
-        $this->assertFalse($thread->isSubscribedTo);
-
-        $thread->subscribe();
-
-        $this->assertTrue($thread->fresh()->isSubscribedTo);
+        $this->assertFalse($this->thread->locked);
     }
 }

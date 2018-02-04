@@ -17,6 +17,10 @@ class Thread extends Model
 
     protected $appends = ['isSubscribedTo', 'replies_count'];
 
+    protected $casts = [
+        'locked' => 'boolean',
+    ];
+
     protected static function boot() {
         parent::boot();
 
@@ -113,6 +117,10 @@ class Thread extends Model
         $this->subscriptions()->where('user_id', $userId ?: auth()->id())->delete();
     }
 
+    public function lock()
+    {
+        $this->update(['locked' => true]);
+    }
 
     //----scope----
 
