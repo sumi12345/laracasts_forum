@@ -51,6 +51,12 @@ class User extends Model implements AuthenticatableContract,
         return asset('avatars/'. ($this->avatar_path ?: 'default.jpg'));
     }
 
+    public function isAdmin()
+    {
+        $admins = ['JohnDoe' => 1];
+        return isset($admins[$this->name]);
+    }
+
     //----relationships----
 
     public function lastReply()

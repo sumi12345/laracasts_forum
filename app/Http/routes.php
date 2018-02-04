@@ -27,12 +27,13 @@ Route::post('auth/register', 'Auth\AuthController@postRegister');
 Route::get('auth/register/confirm', 'Auth\ConfirmationController@index');
 
 // 帖子
-Route::get('/threads', 'ThreadController@index');
+Route::get('/threads', 'ThreadController@index')->name('threads');
 Route::post('/threads', 'ThreadController@store');
 Route::get('/threads/create', 'ThreadController@create');
 Route::get('/threads/{channel}', 'ThreadController@index');
 Route::get('/threads/{channel}/{thread}', 'ThreadController@show');
 Route::delete('/threads/{channel}/{thread}', 'ThreadController@destroy');
+Route::post('/threads/{channel}/{thread}/lock', 'ThreadLockController@store');
 
 // 回复
 Route::post('/threads/{channel}/{thread}/replies', 'ReplyController@store');
