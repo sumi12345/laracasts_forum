@@ -40,10 +40,7 @@ class ThreadLockTest extends TestCase
     public function a_locked_thread_can_not_add_replies()
     {
         $this->signIn();
-        $thread = create('App\Thread');
-
-        $thread->lock();
-        $this->assertTrue($thread->fresh()->locked);
+        $thread = create('App\Thread', ['locked' => true]);
 
         $this->post($thread->path().'/replies', [
             'body' => 'a_locked_thread_can_not_add_replies',

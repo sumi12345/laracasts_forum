@@ -117,11 +117,6 @@ class Thread extends Model
         $this->subscriptions()->where('user_id', $userId ?: auth()->id())->delete();
     }
 
-    public function lock()
-    {
-        $this->update(['locked' => true]);
-    }
-
     //----scope----
 
     /**

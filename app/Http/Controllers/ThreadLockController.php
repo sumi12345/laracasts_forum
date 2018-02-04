@@ -16,6 +16,6 @@ class ThreadLockController extends Controller
 
     public function store($channel, Thread $thread)
     {
-        $thread->lock();
+        $thread->update(['locked' => true]);
     }
 }
