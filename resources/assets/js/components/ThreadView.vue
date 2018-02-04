@@ -3,7 +3,7 @@
     import Subscribe from './Subscribe.vue';
 
     export default {
-        props: ['initialRepliesCount'],
+        props: ['dataRepliesCount', 'dataLocked'],
 
         components: {
             subscribe: Subscribe,
@@ -12,8 +12,10 @@
 
         data() {
             return {
-                locked: false,
-                repliesCount: this.initialRepliesCount
+                // 如何将 locked 状态传给 ThreadView->Replies->NewReply:
+                // 1. pass down property; 2. event; 3. shared state; 4. vuex; 5. read $parent.locked;
+                locked: this.dataLocked,
+                repliesCount: this.dataRepliesCount,
             }
         }
     }

@@ -13952,6 +13952,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 
 
@@ -14159,7 +14160,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    props: ['initialRepliesCount'],
+    props: ['dataRepliesCount', 'dataLocked'],
 
     components: {
         subscribe: __WEBPACK_IMPORTED_MODULE_1__Subscribe_vue___default.a,
@@ -14168,8 +14169,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
     data: function data() {
         return {
-            locked: false,
-            repliesCount: this.initialRepliesCount
+            // 如何将 locked 状态传给 ThreadView->Replies->NewReply:
+            // 1. pass down property; 2. event; 3. shared state; 4. vuex; 5. read $parent.locked;
+            locked: this.dataLocked,
+            repliesCount: this.dataRepliesCount
         };
     }
 });
@@ -15283,7 +15286,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         }
       }
     })], 1)
-  }), _vm._v(" "), _c('new-reply', {
+  }), _vm._v(" "), (_vm.$parent.locked) ? _c('p', [_vm._v("管理员不让回复了:(")]) : _c('new-reply', {
     attrs: {
       "endpoint": _vm.endpoint
     },

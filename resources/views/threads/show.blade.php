@@ -5,7 +5,7 @@
 @endsection
 
 @section('content')
-    <thread-view inline-template :initial-replies-count="{{ $thread->replies_count }}">
+    <thread-view :data-replies-count="{{ $thread->replies_count }}" :data-locked="{{ $thread->locked ? 'true' : 'false' }}" inline-template>
 
     <div class="row">
         <div class="col-md-8">

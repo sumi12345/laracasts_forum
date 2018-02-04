@@ -4,7 +4,8 @@
             <reply :reply="reply" @deleted="removeElement(index)"></reply>
         </div>
 
-        <new-reply @created="add" :endpoint="endpoint"></new-reply>
+        <p v-if="$parent.locked">管理员不让回复了:(</p>
+        <new-reply v-else @created="add" :endpoint="endpoint"></new-reply>
     </div>
 </template>
 
