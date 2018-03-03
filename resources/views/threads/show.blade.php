@@ -10,7 +10,20 @@
     <div class="row">
         <div class="col-md-8">
 
-            <div class="panel panel-default">
+            <div v-if="editing" class="panel panel-default">
+                <div class="panel-heading">
+                    <input type="text" value="{{ $thread->title }}" class="form-control">
+                </div>
+                <div class="panel-body">
+                    <textarea name="body" rows="10" class="form-control">{{ $thread->body }}</textarea>
+                </div>
+                <div class="panel-footer">
+                    <button @click="editing = false" class="btn btn-success btn-xs">更新</button>
+                    <button @click="editing = false" class="btn btn-default btn-xs">取消</button>
+                </div>
+            </div>
+
+            <div v-else class="panel panel-default">
                 <div class="panel-heading">
                     <h3 class="panel-title">
                         {{ $thread->title }}
@@ -18,6 +31,9 @@
                 </div>
                 <div class="panel-body">
                     {{ $thread->body }}
+                </div>
+                <div class="panel-footer">
+                    <button @click="editing = true" class="btn btn-default btn-xs">编辑</button>
                 </div>
             </div>
 

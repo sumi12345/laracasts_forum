@@ -14,6 +14,7 @@
             return {
                 locked: this.thread.locked,
                 repliesCount: this.thread.replies_count,
+                editing: false,
             }
         },
 

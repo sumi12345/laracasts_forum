@@ -14170,7 +14170,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     data: function data() {
         return {
             locked: this.thread.locked,
-            repliesCount: this.thread.replies_count
+            repliesCount: this.thread.replies_count,
+            editing: false
         };
     },
 
@@ -14178,8 +14179,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     methods: {
         toggleLock: function toggleLock() {
             this.locked = !this.locked;
-
-            var endpoint = '/threads/' + this.thread.channel.slug + '/' + this.thread.id + '/lock';
         }
     }
 });
