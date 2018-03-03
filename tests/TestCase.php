@@ -29,7 +29,8 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase
     /** 模拟用户登录 */
     protected function signIn($user = null)
     {
-        $user = $user ?: getLast('App\User');
+        if (! $user) $user = App\User::orderBy('id', 'desc')->where('name', '!=', 'JohnDoe')->where('confirmed', 1)->first();
+        if (! $user) $user = create('App\User');
         $this->be($user);
         return $this;
     }
