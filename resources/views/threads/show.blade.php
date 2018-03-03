@@ -12,27 +12,23 @@
 
             <div v-if="editing" class="panel panel-default">
                 <div class="panel-heading">
-                    <input type="text" value="{{ $thread->title }}" class="form-control">
+                    <input type="text" class="form-control" v-model="form.title">
                 </div>
                 <div class="panel-body">
-                    <textarea name="body" rows="10" class="form-control">{{ $thread->body }}</textarea>
+                    <textarea name="body" rows="10" class="form-control" v-model="form.body"></textarea>
                 </div>
                 <div class="panel-footer">
-                    <button @click="editing = false" class="btn btn-success btn-xs">更新</button>
+                    <button @click="update" class="btn btn-success btn-xs">更新</button>
                     <button @click="editing = false" class="btn btn-default btn-xs">取消</button>
                 </div>
             </div>
 
             <div v-else class="panel panel-default">
                 <div class="panel-heading">
-                    <h3 class="panel-title">
-                        {{ $thread->title }}
-                    </h3>
+                    <h3 class="panel-title" v-text="this.title"></h3>
                 </div>
-                <div class="panel-body">
-                    {{ $thread->body }}
-                </div>
-                <div class="panel-footer">
+                <div class="panel-body" v-text="this.body"></div>
+                <div class="panel-footer" v-if="authorize('updateThread', this.thread)">
                     <button @click="editing = true" class="btn btn-default btn-xs">编辑</button>
                 </div>
             </div>

@@ -6,3 +6,4 @@ public/js/app.js
 Homestead.yaml
 Homestead.json
 .env
+dump.rdb
